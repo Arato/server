@@ -1,26 +1,52 @@
 <?php
 
-namespace Arato\Service;
+use Underscore\Parse;
+use Underscore\Types\Arrays;
 
 class AlertService extends Service
 {
 
+
+    public function __construct(Alert $model)
+    {
+        parent::__construct($model);
+    }
+
     public function filter(Array $filters)
     {
-        $limit = ($filters['limit'] && $filters['limit'] < 50)
-            ? $filters['limit']
-            : 20;
 
-        $contains = ['created_at', 'price'];
-        $sort = ($filters['sort'] && Arrays::contains($contains, $filters['sort']))
-            ? $filters['sort']
-            : 'created_at';
+        $limit = Maybe(Arrays::get($filters, 'limit'))
+            ->map(function ($maybe) {
+                $limit = Parse::toInteger($maybe->val($this->defaultLimit));
 
-        $order = $filters['order'] && $filters['order'] == 'desc';
+                return $limit <= 50 ? $limit : $this->defaultLimit;
+            })
+            ->val($this->defaultLimit);
 
-        return Alert::where()
-            ->sortBy($sort, null, $order)
-            ->paginate($limit);
+        $availableSorts = ['created_at', 'price'];
+
+        $sortBy = Maybe(Arrays::get($filters, 'sort'))
+            ->map(function ($maybe) use ($availableSorts) {
+                $sort = $maybe->val();
+
+                return Arrays::contains($availableSorts, $maybe->val())
+                    ? $sort
+                    : $this->defaultSort;
+            })
+            ->val($this->defaultSort);
+
+        $availableOrders = ['asc', 'desc'];
+        $order = Maybe(Arrays::get($filters, 'order'))
+            ->map(function ($maybe) use ($availableOrders) {
+                $order = $maybe->val();
+
+                return Arrays::contains($availableOrders, $maybe->val())
+                    ? $order
+                    : $this->defaultOrder;
+            })
+            ->val($this->defaultOrder);
+
+        return $this->model->with([])->orderBy($sortBy, $order)->paginate($limit);
     }
 
     public function create($item)

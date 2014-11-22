@@ -1,6 +1,5 @@
 <?php
 
-use Arato\Service\AlertService;
 use controllers\ApiController;
 use Illuminate\Support\Facades\Response;
 use Arato\Transformers\AlertTransformer;
@@ -12,10 +11,10 @@ class AlertsController extends ApiController
 
     function __construct(AlertTransformer $alertTransformer, AlertService $alertService)
     {
+        $this->beforeFilter('auth.basic', ['on' => 'post']);
+
         $this->alertTransformer = $alertTransformer;
         $this->alertService = $alertService;
-
-        $this->beforeFilter('auth.basic', ['on' => 'post']);
     }
 
     /**
