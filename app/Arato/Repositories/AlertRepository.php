@@ -1,11 +1,13 @@
 <?php
+namespace Arato\Repositories;
 
+use Alert;
+use Illuminate\Support\Facades\Validator;
 use Underscore\Parse;
 use Underscore\Types\Arrays;
 
-class AlertService extends Service
+class AlertRepository extends Repository
 {
-
 
     public function __construct(Alert $model)
     {
@@ -49,8 +51,15 @@ class AlertService extends Service
         return $this->model->with([])->orderBy($sortBy, $order)->paginate($limit);
     }
 
-    public function create($item)
+    public function isValid(Array $data)
     {
-        // TODO: Implement create() method.
+        $rules = [
+            'title' => 'required',
+            'price' => ['required', 'min:0']
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        return $validator->passes();
     }
 }

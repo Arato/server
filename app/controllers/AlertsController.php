@@ -1,5 +1,6 @@
 <?php
 
+use Arato\Repositories\AlertRepository;
 use controllers\ApiController;
 use Illuminate\Support\Facades\Response;
 use Arato\Transformers\AlertTransformer;
@@ -7,14 +8,14 @@ use Arato\Transformers\AlertTransformer;
 class AlertsController extends ApiController
 {
     protected $alertTransformer;
-    protected $alertService;
+    protected $alertRepository;
 
-    function __construct(AlertTransformer $alertTransformer, AlertService $alertService)
+    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository)
     {
-        $this->beforeFilter('auth.basic', ['on' => 'post']);
+        //$this->beforeFilter('auth.basic', ['on' => 'post']);
 
         $this->alertTransformer = $alertTransformer;
-        $this->alertService = $alertService;
+        $this->alertRepository = $alertRepository;
     }
 
     /**
@@ -24,24 +25,12 @@ class AlertsController extends ApiController
      */
     public function index()
     {
-        $alerts = $this->alertService->filter(Input::all());
+        $alerts = $this->alertRepository->filter(Input::all());
 
         return $this->respondWithPagination($alerts, [
             'data' => $this->alertTransformer->transformCollection($alerts->all())
         ]);
     }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -50,13 +39,15 @@ class AlertsController extends ApiController
      */
     public function store()
     {
-        if (!Input::get('title') || !Input::get('price')) {
+        $isValidAlert = $this->alertRepository->isValid(Input::all());
+
+        if (!$isValidAlert) {
             return $this->respondFailedValidation();
         }
 
-        Alert::create(Input::all());
+        $createdUser = $this->alertRepository->create(Input::all());
 
-        return $this->respondCreated('Alert successfully created');
+        return $this->respondCreated($createdUser);
     }
 
 
@@ -82,19 +73,6 @@ class AlertsController extends ApiController
 
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  int $id
@@ -103,7 +81,19 @@ class AlertsController extends ApiController
      */
     public function update($id)
     {
-        //
+
+//        $isValidAlert = $this->alertRepository->isValid(Input::all());
+//
+//        if (!$isValidAlert) {
+//            return $this->respondFailedValidation();
+//        }
+
+        $updatedUser = $this->alertRepository->update($id, Input::all());
+
+        return $this->respond([
+            'data' => $updatedUser
+        ]);
+
     }
 
 
@@ -116,13 +106,13 @@ class AlertsController extends ApiController
      */
     public function destroy($id)
     {
-        $alert = Alert::find($id);
+//        $alert = Alert::find($id);
+//
+//        if (!$alert) {
+//            return $this->respondNotFound('Alert does not exist.');
+//        }
 
-        if (!$alert) {
-            return $this->respondNotFound('Alert does not exist.');
-        }
-
-        $alert->remove();
+        $this->alertRepository->delete($id);
 
         return $this->respondDeleted('Alert successfully deleted');
     }

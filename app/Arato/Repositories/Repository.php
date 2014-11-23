@@ -1,6 +1,10 @@
 <?php
 
-abstract class Service
+namespace Arato\Repositories;
+
+use Illuminate\Database\Eloquent\Model;
+
+abstract class Repository
 {
     protected $defaultLimit = 20;
     protected $defaultSort = 'id';
@@ -8,12 +12,14 @@ abstract class Service
 
     protected $model;
 
-    public function __construct($model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
     public abstract function filter(Array $filters);
+
+    public abstract function isValid(Array $data);
 
 
     public function all()
@@ -33,7 +39,13 @@ abstract class Service
 
     public function update($id, $input)
     {
-        return $this->model->find($id)->update($input);
+        $updated = $this->model->find($id)->update($input);
+
+        if ($updated) {
+            return $this->model->find($id);
+        }
+
+        return null;
     }
 
     public function find($id)
