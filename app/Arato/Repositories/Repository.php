@@ -34,9 +34,11 @@ abstract class Repository
         return $this->model->with($with)->get()->toArray();
     }
 
-    public function create($input)
+    public function create($inputs)
     {
-        return $this->model->create($input)->toArray();
+        $inputs['user_id'] = Auth::user()->id;
+
+        return $this->model->create($inputs)->toArray();
     }
 
     public function update($id, $input)

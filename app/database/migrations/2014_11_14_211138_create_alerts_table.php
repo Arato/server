@@ -19,7 +19,7 @@ class CreateAlertsTable extends Migration
             $table->string('title', 255);
             $table->string('content', 255);
             $table->integer('price');
-
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

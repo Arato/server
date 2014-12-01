@@ -12,7 +12,7 @@ class AlertsController extends ApiController
 
     function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository)
     {
-        $this->beforeFilter('auth.basic', ['on' => 'post', 'put']);
+        $this->beforeFilter('auth.api', ['on' => 'post', 'put']);
 
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
@@ -44,6 +44,7 @@ class AlertsController extends ApiController
         if (!$isValidAlert) {
             return $this->respondFailedValidation();
         }
+
 
         $createdUser = $this->alertRepository->create(Input::all());
 
@@ -81,6 +82,15 @@ class AlertsController extends ApiController
      */
     public function update($id)
     {
+        $alert = $this->alertRepository->find($id);
+
+        if (!$alert) {
+            return $this->respondNotFound('Alert does not exist.');
+        }
+
+        if (Auth::user()->id !== $alert->user_id) {
+            return $this->respondForbidden();
+        }
 
         $isValidAlert = $this->alertRepository->isValidForUpdate(Input::all());
 
@@ -110,6 +120,10 @@ class AlertsController extends ApiController
 
         if (!$alert) {
             return $this->respondNotFound('Alert does not exist.');
+        }
+
+        if (Auth::user()->id !== $alert->user_id) {
+            return $this->respondForbidden();
         }
 
         $this->alertRepository->delete($id);
