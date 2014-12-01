@@ -9,7 +9,9 @@
     "type"             : "project",
     "require"          : {
         "laravel/framework"          : "4.2.*",
-        "barryvdh/laravel-ide-helper": "1.*"
+        "barryvdh/laravel-ide-helper": "1.*",
+        "anahkiasen/underscore-php"  : "dev-master",
+        "pirminis/maybe-monad"       : "~1.2"
     },
     "autoload"         : {
         "classmap": [
@@ -43,8 +45,6 @@
     },
     "minimum-stability": "stable",
     "require-dev"      : {
-        "fzaninotto/faker"         : "1.4",
-        "anahkiasen/underscore-php": "dev-master",
-        "pirminis/maybe-monad"     : "~1.2"
+        "fzaninotto/faker": "1.4"
     }
 }
