@@ -8,10 +8,9 @@
     "license"          : "MIT",
     "type"             : "project",
     "require"          : {
-        "laravel/framework"          : "4.2.*",
-        "barryvdh/laravel-ide-helper": "1.*",
-        "anahkiasen/underscore-php"  : "dev-master",
-        "pirminis/maybe-monad"       : "~1.2"
+        "laravel/framework"        : "4.2.*",
+        "anahkiasen/underscore-php": "dev-master",
+        "pirminis/maybe-monad"     : "~1.2"
     },
     "autoload"         : {
         "classmap": [
@@ -32,8 +31,6 @@
         ],
         "post-update-cmd"        : [
             "php artisan clear-compiled",
-            "php artisan ide-helper:generate",
-
             "php artisan optimize"
         ],
         "post-create-project-cmd": [
