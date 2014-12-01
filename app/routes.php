@@ -11,10 +11,12 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
+Route::get('/', function () {
+    return View::make('hello');
 });
+
+Route::post('/login', ['uses' => 'LoginController@login']);
+Route::get('/logout', ['uses' => 'LoginController@logout']);
 
 Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('alerts', 'AlertsController');

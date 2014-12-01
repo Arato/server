@@ -82,11 +82,11 @@ class AlertsController extends ApiController
     public function update($id)
     {
 
-        $isValidAlert = $this->alertRepository->isValid(Input::all());
-
-        if (!$isValidAlert) {
-            return $this->respondFailedValidation();
-        }
+//        $isValidAlert = $this->alertRepository->isValid(Input::all());
+//
+//        if (!$isValidAlert) {
+//            return $this->respondFailedValidation();
+//        }
 
         $updatedUser = $this->alertRepository->update($id, Input::all());
 
