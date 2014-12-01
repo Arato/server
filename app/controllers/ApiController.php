@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response as IlluminateResponse;
 class ApiController extends \BaseController
 {
 
-    protected $statusCode = 200;
+    protected $statusCode = IlluminateResponse::HTTP_OK;
 
     /**
      * @return mixed

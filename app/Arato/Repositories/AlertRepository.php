@@ -16,7 +16,6 @@ class AlertRepository extends Repository
 
     public function filter(Array $filters)
     {
-
         $limit = Maybe(Arrays::get($filters, 'limit'))
             ->map(function ($maybe) {
                 $limit = Parse::toInteger($maybe->val($this->defaultLimit));

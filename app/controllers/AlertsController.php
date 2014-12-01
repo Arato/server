@@ -82,11 +82,11 @@ class AlertsController extends ApiController
     public function update($id)
     {
 
-//        $isValidAlert = $this->alertRepository->isValid(Input::all());
-//
-//        if (!$isValidAlert) {
-//            return $this->respondFailedValidation();
-//        }
+        $isValidAlert = $this->alertRepository->isValid(Input::all());
+
+        if (!$isValidAlert) {
+            return $this->respondFailedValidation();
+        }
 
         $updatedUser = $this->alertRepository->update($id, Input::all());
 
@@ -106,11 +106,11 @@ class AlertsController extends ApiController
      */
     public function destroy($id)
     {
-//        $alert = Alert::find($id);
-//
-//        if (!$alert) {
-//            return $this->respondNotFound('Alert does not exist.');
-//        }
+        $alert = $this->alertRepository->find($id);
+
+        if (!$alert) {
+            return $this->respondNotFound('Alert does not exist.');
+        }
 
         $this->alertRepository->delete($id);
 
