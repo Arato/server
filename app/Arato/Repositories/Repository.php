@@ -19,7 +19,9 @@ abstract class Repository
 
     public abstract function filter(Array $filters);
 
-    public abstract function isValid(Array $data);
+    public abstract function isValidForCreation(Array $data);
+
+    public abstract function isValidForUpdate(Array $data);
 
 
     public function all()

@@ -50,11 +50,22 @@ class AlertRepository extends Repository
         return $this->model->with([])->orderBy($sortBy, $order)->paginate($limit);
     }
 
-    public function isValid(Array $data)
+    public function isValidForCreation(Array $data)
     {
         $rules = [
             'title' => 'required',
             'price' => ['required', 'min:0']
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        return $validator->passes();
+    }
+
+    public function isValidForUpdate(Array $data)
+    {
+        $rules = [
+            'price' => ['min:0']
         ];
 
         $validator = Validator::make($data, $rules);

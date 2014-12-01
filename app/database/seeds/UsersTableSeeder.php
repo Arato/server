@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         Arrays::each($emails, function ($email) {
             User::create([
                 'email'    => $email,
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password')
             ]);
         });
     }

@@ -15,7 +15,7 @@ class LoginController extends ApiController
 
         $validator = Validator::make(Input::all(), $rules);
         if ($validator->fails()) {
-            return $this->respondFailedValidation();
+            return $this->respondUnauthorized();
         }
 
         $userData = [
@@ -23,18 +23,18 @@ class LoginController extends ApiController
             'password' => Input::get('password')
         ];
 
-        if (Auth::attempt($userData)) {
+        if (Auth::attempt($userData, false)) {
             return $this->respond([
-                'data' => $userData
+                'data' => Auth::user()
             ]);
         } else {
-            return $this->respondFailedValidation();
+            return $this->respondUnauthorized();
         }
     }
 
     public function logout()
     {
-        Auth::logout;
+        Auth::logout();
 
         return $this->respond([
             'message' => 'Successfully logged out.'
