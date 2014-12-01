@@ -3,7 +3,7 @@
 
 use controllers\ApiController;
 
-class LoginController extends ApiController
+class AuthController extends ApiController
 {
 
     public function login()

@@ -13,10 +13,11 @@
 
 Route::get('/', ['uses' => 'HomeController@showWelcome']);
 
-Route::post('/login', ['uses' => 'LoginController@login']);
-Route::get('/logout', ['uses' => 'LoginController@logout']);
+Route::post('/login', ['uses' => 'AuthController@login']);
+Route::get('/logout', ['uses' => 'AuthController@logout']);
 
 Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('alerts', 'AlertsController');
+    Route::resource('users', 'UsersController', ['only' => ['index']]);
 });
 
