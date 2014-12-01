@@ -16,6 +16,15 @@ class AlertRepository extends Repository
 
     public function filter(Array $filters)
     {
+        $query = $this->model;
+
+        $userId = Maybe(Arrays::get($filters, 'userId'))
+            ->val();
+
+        if($userId) {
+            $query = $query->where('user_id', '=', $userId);
+
+        }
         $limit = Maybe(Arrays::get($filters, 'limit'))
             ->map(function ($maybe) {
                 $limit = Parse::toInteger($maybe->val($this->defaultLimit));
