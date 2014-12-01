@@ -3,6 +3,7 @@ namespace Arato\Repositories;
 
 use Underscore\Parse;
 use Underscore\Types\Arrays;
+use User;
 
 class UserRepository extends Repository
 {
@@ -21,6 +22,16 @@ class UserRepository extends Repository
             })
             ->val($this->defaultLimit);
 
-        return $this->model->with([])->orderBy($sortBy, $order)->paginate($limit)
+        return $this->model->with([])->paginate($limit);
+    }
+
+    public function isValidForCreation(Array $data)
+    {
+        // TODO: Implement isValidForCreation() method.
+    }
+
+    public function isValidForUpdate(Array $data)
+    {
+        // TODO: Implement isValidForUpdate() method.
     }
 }

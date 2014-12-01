@@ -5,7 +5,7 @@ use controllers\ApiController;
 use Illuminate\Support\Facades\Response;
 use Arato\Transformers\UserTransformer;
 
-class UsersControllers extends ApiController
+class UsersController extends ApiController
 {
     protected $userTransformer;
     protected $userRepository;
