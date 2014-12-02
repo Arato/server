@@ -17,34 +17,44 @@ class AlertRepository extends Repository
     {
         $query = $this->model;
 
-        $userId = Arrays::get($filters, 'userId');
+
+        $userId = Maybe(Arrays::get($filters, 'userId'))
+            ->val();
 
         if ($userId) {
             $query = $query->where('user_id', '=', $userId);
         }
 
-        $limit = Arrays::get($filters, 'limit');
-        $limit = Parse::toInteger($limit);
-        if ($limit > 50 || $limit <= 0) {
-            $limit = $this->defaultLimit;
-        }
+        $limit = Maybe(Arrays::get($filters, 'limit'))
+            ->map(function ($maybe) {
+                $limit = Parse::toInteger($maybe->val($this->defaultLimit));
+
+                return $limit <= 50 && $limit > 0 ? $limit : $this->defaultLimit;
+            })
+            ->val($this->defaultLimit);
 
         $availableSorts = ['created_at', 'price'];
 
-        $sortBy = Arrays::get($filters, 'sort');
-        if ($sortBy) {
-            $sortBy = Arrays::contains($availableSorts, $sortBy) ? $sortBy : $this->defaultSort;
-        } else {
-            $sortBy = $this->defaultSort;
-        }
+        $sortBy = Maybe(Arrays::get($filters, 'sort'))
+            ->map(function ($maybe) use ($availableSorts) {
+                $sort = $maybe->val();
+
+                return Arrays::contains($availableSorts, $maybe->val())
+                    ? $sort
+                    : $this->defaultSort;
+            })
+            ->val($this->defaultSort);
 
         $availableOrders = ['asc', 'desc'];
-        $order = Arrays::get($filters, 'order');
-        if ($order) {
-            $order = Arrays::contains($availableOrders, $order) ? $order : $this->defaultOrder;
-        } else {
-            $order = $this->defaultOrder;
-        }
+        $order = Maybe(Arrays::get($filters, 'order'))
+            ->map(function ($maybe) use ($availableOrders) {
+                $order = $maybe->val();
+
+                return Arrays::contains($availableOrders, $maybe->val())
+                    ? $order
+                    : $this->defaultOrder;
+            })
+            ->val($this->defaultOrder);
 
         return $query->with([])->orderBy($sortBy, $order)->paginate($limit);
     }
