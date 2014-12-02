@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c353bf39420ae90a9042048096e6b25",
+    "hash": "269be551da964f9733b00a6d8d31250f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1981,16 +1981,16 @@
         },
         {
             "name": "pirminis/maybe-monad",
-            "version": "1.2.10",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pirminis/maybe-monad.git",
-                "reference": "d23478815fd5b1d159d6d9fc6a206d10bf389440"
+                "reference": "852c2eeab7b2fe69ccbd2ed895f428367a4fa405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pirminis/maybe-monad/zipball/d23478815fd5b1d159d6d9fc6a206d10bf389440",
-                "reference": "d23478815fd5b1d159d6d9fc6a206d10bf389440",
+                "url": "https://api.github.com/repos/pirminis/maybe-monad/zipball/852c2eeab7b2fe69ccbd2ed895f428367a4fa405",
+                "reference": "852c2eeab7b2fe69ccbd2ed895f428367a4fa405",
                 "shasum": ""
             },
             "require": {
@@ -2018,13 +2018,14 @@
                 "monad",
                 "safe"
             ],
-            "time": "2014-10-23 19:27:17"
+            "time": "2014-10-26 15:06:04"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "anahkiasen/underscore-php": 20
+        "anahkiasen/underscore-php": 20,
+        "pirminis/maybe-monad": 20
     },
     "prefer-stable": false,
     "platform": [],
