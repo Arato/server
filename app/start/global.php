@@ -1,7 +1,5 @@
 <?php
 
-require base_path() . "/vendor/pirminis/maybe-monad/lib/global.php";
-
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader

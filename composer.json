@@ -42,7 +42,6 @@
     }, "minimum-stability": "stable",
     "require-dev"         : {
         "fzaninotto/faker"         : "1.4",
-        "anahkiasen/underscore-php": "dev-master",
-        "pirminis/maybe-monad"     : "dev-master"
+        "anahkiasen/underscore-php": "dev-master"
     }
 }
