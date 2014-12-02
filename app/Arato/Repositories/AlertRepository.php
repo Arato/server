@@ -28,7 +28,7 @@ class AlertRepository extends Repository
             ->map(function ($maybe) {
                 $limit = Parse::toInteger($maybe->val($this->defaultLimit));
 
-                return $limit <= 50 ? $limit : $this->defaultLimit;
+                return $limit <= 50 && $limit > 0 ? $limit : $this->defaultLimit;
             })
             ->val($this->defaultLimit);
 
