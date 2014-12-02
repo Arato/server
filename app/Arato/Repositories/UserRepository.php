@@ -14,12 +14,14 @@ class UserRepository extends Repository
 
     public function filter(Array $filters)
     {
-        $limit = Arrays::get($filters, 'limit');
-        $limit = Parse::toInteger($limit);
-        if ($limit > 50 || $limit <= 0) {
-            $limit = $this->defaultLimit;
-        }
-        
+        $limit = Maybe(Arrays::get($filters, 'limit'))
+            ->map(function ($maybe) {
+                $limit = Parse::toInteger($maybe->val($this->defaultLimit));
+
+                return $limit <= 50 ? $limit : $this->defaultLimit;
+            })
+            ->val($this->defaultLimit);
+
         return $this->model->with([])->paginate($limit);
     }
 

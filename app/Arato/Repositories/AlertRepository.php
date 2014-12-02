@@ -17,7 +17,6 @@ class AlertRepository extends Repository
     {
         $query = $this->model;
 
-
         $userId = Maybe(Arrays::get($filters, 'userId'))
             ->val();
 
