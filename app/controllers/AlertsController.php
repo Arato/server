@@ -12,8 +12,6 @@ class AlertsController extends ApiController
 
     function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository)
     {
-        $this->beforeFilter('auth.api', ['on' => 'post', 'put']);
-
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
     }
@@ -103,7 +101,6 @@ class AlertsController extends ApiController
         return $this->respond([
             'data' => $updatedUser
         ]);
-
     }
 
 

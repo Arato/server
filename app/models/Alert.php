@@ -10,5 +10,5 @@ class Alert extends Eloquent
      */
     protected $table = 'alerts';
 
-    protected $fillable = ['title', 'price', 'content'];
+    protected $fillable = ['title', 'price', 'content', 'user_id'];
 }

@@ -8,7 +8,6 @@ use Underscore\Types\Arrays;
 
 class AlertRepository extends Repository
 {
-
     public function __construct(Alert $model)
     {
         parent::__construct($model);
@@ -21,10 +20,10 @@ class AlertRepository extends Repository
         $userId = Maybe(Arrays::get($filters, 'userId'))
             ->val();
 
-        if($userId) {
+        if ($userId) {
             $query = $query->where('user_id', '=', $userId);
-
         }
+
         $limit = Maybe(Arrays::get($filters, 'limit'))
             ->map(function ($maybe) {
                 $limit = Parse::toInteger($maybe->val($this->defaultLimit));
@@ -56,7 +55,7 @@ class AlertRepository extends Repository
             })
             ->val($this->defaultOrder);
 
-        return $this->model->with([])->orderBy($sortBy, $order)->paginate($limit);
+        return $query->with([])->orderBy($sortBy, $order)->paginate($limit);
     }
 
     public function isValidForCreation(Array $data)

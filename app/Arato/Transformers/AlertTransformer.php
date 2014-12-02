@@ -11,6 +11,7 @@ class AlertTransformer extends Transformer
             'title'     => $item['title'],
             'content'   => $item['content'],
             'price'     => $item['price'],
+            'user_id'   => $item['user_id'],
             'createdAt' => $item['created_at']
         ];
     }

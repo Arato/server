@@ -1,10 +1,17 @@
 <?php
 
 
+use Arato\Transformers\UserTransformer;
 use controllers\ApiController;
 
 class AuthController extends ApiController
 {
+    protected $userTransformer;
+
+    function __construct(UserTransformer $userTransformer)
+    {
+        $this->userTransformer = $userTransformer;
+    }
 
     public function login()
     {
@@ -25,7 +32,7 @@ class AuthController extends ApiController
 
         if (Auth::attempt($userData, false)) {
             return $this->respond([
-                'data' => Auth::user()
+                'data' => $this->userTransformer->transform(Auth::user())
             ]);
         } else {
             return $this->respondUnauthorized();
