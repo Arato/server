@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "269be551da964f9733b00a6d8d31250f",
+    "hash": "3110f953344f0d9d655657be2407724b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1978,54 +1978,12 @@
                 "fixtures"
             ],
             "time": "2014-06-04 14:43:02"
-        },
-        {
-            "name": "pirminis/maybe-monad",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pirminis/maybe-monad.git",
-                "reference": "852c2eeab7b2fe69ccbd2ed895f428367a4fa405"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pirminis/maybe-monad/zipball/852c2eeab7b2fe69ccbd2ed895f428367a4fa405",
-                "reference": "852c2eeab7b2fe69ccbd2ed895f428367a4fa405",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "": "lib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonas Staškevičius",
-                    "homepage": "https://github.com/pirminis"
-                }
-            ],
-            "description": "PHP monad library",
-            "homepage": "https://github.com/pirminis/maybe-monad",
-            "keywords": [
-                "monad",
-                "safe"
-            ],
-            "time": "2014-10-26 15:06:04"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "anahkiasen/underscore-php": 20,
-        "pirminis/maybe-monad": 20
+        "anahkiasen/underscore-php": 20
     },
     "prefer-stable": false,
     "platform": [],

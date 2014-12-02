@@ -21,26 +21,20 @@
             "app/database/seeds",
             "app/tests/TestCase.php",
             "app/Arato"
-        ],
-        "files"   : [
-            "vendor/pirminis/maybe-monad/lib/global.php"
         ]
     },
     "scripts"          : {
         "post-install-cmd"       : [
-            "$_ artisan clear-compiled",
-            "$_ artisan optimize"
-        ],
-        "pre-update-cmd"         : [
-            "$_ artisan clear-compiled"
+            "php artisan clear-compiled",
+            "php artisan optimize"
         ],
         "post-update-cmd"        : [
-            "$_ artisan clear-compiled",
-            "$_ artisan ide-helper:generate",
-            "$_ artisan optimize"
+            "php artisan clear-compiled",
+            "php artisan ide-helper:generate",
+            "php artisan optimize"
         ],
         "post-create-project-cmd": [
-            "$_ artisan key:generate"
+            "php artisan key:generate"
         ]
     },
     "config"           : {
@@ -49,7 +43,6 @@
     "minimum-stability": "stable",
     "require-dev"      : {
         "fzaninotto/faker"         : "1.4",
-        "anahkiasen/underscore-php": "dev-master",
-        "pirminis/maybe-monad"     : "dev-master"
+        "anahkiasen/underscore-php": "dev-master"
     }
 }
