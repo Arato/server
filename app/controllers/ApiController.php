@@ -85,7 +85,7 @@ class ApiController extends \BaseController
         return $this
             ->setStatusCode(IlluminateResponse::HTTP_CREATED)
             ->respond([
-                'message' => $message
+                'data' => $message
             ]);
     }
 
@@ -99,7 +99,7 @@ class ApiController extends \BaseController
         return $this
             ->setStatusCode(IlluminateResponse::HTTP_OK)
             ->respond([
-                'message' => $message
+                'data' => $message
             ]);
     }
 
