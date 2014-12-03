@@ -37,8 +37,6 @@ abstract class Repository
 
     public function create($inputs)
     {
-        $inputs['user_id'] = Auth::user()->id;
-
         return $this->model->create($inputs)->toArray();
     }
 
