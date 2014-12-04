@@ -55,7 +55,7 @@ abstract class Repository
     {
         $model = $this->model->find($id);
         if ($model) {
-            return $model->toArray();
+            return $model;
         }
 
         return null;
