@@ -43,10 +43,12 @@ class AlertsController extends ApiController
             return $this->respondFailedValidation();
         }
 
+        $inputs = Input::all();
+        $inputs['user_id'] = Auth::user()->id;
 
-        $createdUser = $this->alertRepository->create(Input::all());
+        $createdAlert = $this->alertRepository->create($inputs);
 
-        return $this->respondCreated($createdUser);
+        return $this->respondCreated($createdAlert);
     }
 
 
@@ -85,9 +87,9 @@ class AlertsController extends ApiController
         if (!$alert) {
             return $this->respondNotFound('Alert does not exist.');
         }
-        if (Auth::user()->id !== $alert['user_id']) {
-            return $this->respondForbidden();
-        }
+//        if (Auth::user()->id !== $alert['user_id']) {
+//            return $this->respondForbidden();
+//        }
 
         $isValidAlert = $this->alertRepository->isValidForUpdate(Input::all());
 
@@ -118,9 +120,9 @@ class AlertsController extends ApiController
             return $this->respondNotFound('Alert does not exist.');
         }
 
-        if (Auth::user()->id !== $alert['user_id']) {
-            return $this->respondForbidden();
-        }
+//        if (Auth::user()->id !== $alert['user_id']) {
+//            return $this->respondForbidden();
+//        }
 
         $this->alertRepository->delete($id);
 
