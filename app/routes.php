@@ -16,7 +16,8 @@ Route::get('/', ['uses' => 'HomeController@showWelcome']);
 Route::post('/login', ['uses' => 'AuthController@login']);
 Route::post('/logout', ['uses' => 'AuthController@logout']);
 
-Route::group(['prefix' => 'api/v1', 'before' => 'auth.basic'], function () {
+//Route::group(['prefix' => 'api/v1', 'before' => 'auth.basic'], function () {
+Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('alerts', 'AlertsController');
     Route::resource('users', 'UsersController', ['only' => ['index']]);
 });
