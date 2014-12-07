@@ -12,7 +12,7 @@ class UsersController extends ApiController
 
     function __construct(UserRepository $userRepository, UserTransformer $userTransformer)
     {
-        $this->beforeFilter('auth.api', ['on' => 'post', 'put']);
+        $this->beforeFilter('auth.basic', ['except' => 'store']);
 
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
@@ -28,7 +28,115 @@ class UsersController extends ApiController
         $users = $this->userRepository->filter(Input::all());
 
         return $this->respondWithPagination($users, [
-            'data' => $this->userTransformer->transformCollection($users->all())
+            'users' => $this->userTransformer->transformCollection($users->all())
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        $isValidUser = $this->userRepository->isValidForCreation(Input::all());
+
+        if (!$isValidUser) {
+            return $this->respondFailedValidation();
+        }
+
+        $data = Input::all();
+        $data['password'] = Hash::make('password');
+
+        $createdUser = $this->userRepository->create($data);
+
+        return $this->respondCreated([
+            'users' => $this->userTransformer->transform($createdUser)
+        ]);
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            return $this->respondNotFound('User does not exist.');
+        }
+
+        return $this->respond([
+            'users' => $this->userTransformer->transform($user)
+        ]);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function update($id)
+    {
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            return $this->respondNotFound('User does not exist.');
+        }
+        if (Auth::user()->id !== $user['id']) {
+            return $this->respondForbidden();
+        }
+
+        $isValidUser = $this->userRepository->isValidForUpdate(Input::all());
+
+        if (!$isValidUser) {
+            return $this->respondFailedValidation();
+        }
+
+
+        $data = Input::all();
+        if (Input::get('password')) {
+            $data['password'] = Hash::make('password');
+        }
+        $updatedUser = $this->userRepository->update($id, $data);
+
+        return $this->respond([
+            'users' => $updatedUser
+        ]);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            return $this->respondNotFound('User does not exist.');
+        }
+
+        if (Auth::user()->id !== $user['id']) {
+            return $this->respondForbidden();
+        }
+
+        $this->userRepository->delete($id);
+
+        return $this->respondDeleted([
+            'users' => 'User successfully deleted.'
         ]);
     }
 }

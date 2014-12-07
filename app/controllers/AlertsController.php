@@ -12,6 +12,8 @@ class AlertsController extends ApiController
 
     function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository)
     {
+        $this->beforeFilter('auth.basic');
+
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
     }
@@ -26,7 +28,7 @@ class AlertsController extends ApiController
         $alerts = $this->alertRepository->filter(Input::all());
 
         return $this->respondWithPagination($alerts, [
-            'data' => $this->alertTransformer->transformCollection($alerts->all())
+            'alerts' => $this->alertTransformer->transformCollection($alerts->all())
         ]);
     }
 
@@ -48,7 +50,9 @@ class AlertsController extends ApiController
 
         $createdAlert = $this->alertRepository->create($inputs);
 
-        return $this->respondCreated($createdAlert);
+        return $this->respondCreated([
+            'alerts' => $this->alertTransformer->transform($createdAlert)
+        ]);
     }
 
 
@@ -68,7 +72,7 @@ class AlertsController extends ApiController
         }
 
         return $this->respond([
-            'data' => $this->alertTransformer->transform($alert)
+            'alerts' => $this->alertTransformer->transform($alert)
         ]);
     }
 
@@ -100,7 +104,7 @@ class AlertsController extends ApiController
         $updatedUser = $this->alertRepository->update($id, Input::all());
 
         return $this->respond([
-            'data' => $updatedUser
+            'alerts' => $updatedUser
         ]);
     }
 
@@ -126,6 +130,8 @@ class AlertsController extends ApiController
 
         $this->alertRepository->delete($id);
 
-        return $this->respondDeleted('Alert successfully deleted');
+        return $this->respondDeleted([
+            'alerts' => 'Alert successfully deleted.'
+        ]);
     }
 }

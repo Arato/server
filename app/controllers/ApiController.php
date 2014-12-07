@@ -76,31 +76,27 @@ class ApiController extends \BaseController
 
 
     /**
-     * @param string $message
+     * @param Array $data
      *
      * @return mixed
      */
-    public function respondCreated($message = 'Object successfully created')
+    public function respondCreated($data)
     {
         return $this
             ->setStatusCode(IlluminateResponse::HTTP_CREATED)
-            ->respond([
-                'data' => $message
-            ]);
+            ->respond($data);
     }
 
     /**
-     * @param string $message
+     * @param Array $data
      *
      * @return mixed
      */
-    public function respondDeleted($message = 'Object successfully deleted')
+    public function respondDeleted($data)
     {
         return $this
             ->setStatusCode(IlluminateResponse::HTTP_OK)
-            ->respond([
-                'data' => $message
-            ]);
+            ->respond($data);
     }
 
 

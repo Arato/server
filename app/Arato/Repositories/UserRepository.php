@@ -2,6 +2,7 @@
 namespace Arato\Repositories;
 
 use Underscore\Parse;
+use Illuminate\Support\Facades\Validator;
 use Underscore\Types\Arrays;
 use User;
 
@@ -27,11 +28,25 @@ class UserRepository extends Repository
 
     public function isValidForCreation(Array $data)
     {
-        // TODO: Implement isValidForCreation() method.
+        $rules = [
+            'email'    => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'confirmed']
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        return $validator->passes();
     }
 
     public function isValidForUpdate(Array $data)
     {
-        // TODO: Implement isValidForUpdate() method.
+        $rules = [
+            'email'    => ['email', 'unique:users'],
+            'password' => ['confirmed']
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        return $validator->passes();
     }
 }
