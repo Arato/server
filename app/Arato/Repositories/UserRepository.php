@@ -1,6 +1,7 @@
 <?php
 namespace Arato\Repositories;
 
+use Log;
 use Underscore\Parse;
 use Illuminate\Support\Facades\Validator;
 use Underscore\Types\Arrays;
@@ -41,7 +42,7 @@ class UserRepository extends Repository
     public function isValidForUpdate(Array $data)
     {
         $rules = [
-            'email'    => ['email', 'unique:users'],
+            'email'    => ['email'],
             'password' => ['confirmed']
         ];
 

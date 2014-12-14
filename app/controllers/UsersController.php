@@ -46,7 +46,7 @@ class UsersController extends ApiController
         }
 
         $data = Input::all();
-        $data['password'] = Hash::make('password');
+        $data['password'] = Hash::make(Input::get('password'));
 
         $createdUser = $this->userRepository->create($data);
 
@@ -104,9 +104,10 @@ class UsersController extends ApiController
 
         $data = Input::all();
         if (Input::get('password')) {
-            $data['password'] = Hash::make('password');
+            $data['password'] = Hash::make(Input::get('password'));
         }
         $updatedUser = $this->userRepository->update($id, $data);
+
 
         return $this->respond([
             'users' => $updatedUser
