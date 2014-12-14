@@ -101,10 +101,10 @@ class AlertsController extends ApiController
             return $this->respondFailedValidation();
         }
 
-        $updatedUser = $this->alertRepository->update($id, Input::all());
+        $updatedAlert = $this->alertRepository->update($id, Input::all());
 
         return $this->respond([
-            'alerts' => $updatedUser
+            'alerts' => $updatedAlert
         ]);
     }
 
