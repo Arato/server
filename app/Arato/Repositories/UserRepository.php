@@ -50,4 +50,9 @@ class UserRepository extends Repository
 
         return $validator->passes();
     }
+
+    public function findByEmail($email)
+    {
+        return $this->model->where('email', $email);
+    }
 }
