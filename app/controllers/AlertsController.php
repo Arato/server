@@ -104,7 +104,7 @@ class AlertsController extends ApiController
         $updatedAlert = $this->alertRepository->update($id, Input::all());
 
         return $this->respond([
-            'alerts' => $updatedAlert
+            'alerts' => $this->alertTransformer->transform($alert)
         ]);
     }
 

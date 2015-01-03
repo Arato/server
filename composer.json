@@ -10,7 +10,8 @@
   "require": {
     "laravel/framework": "4.2.*",
     "barryvdh/laravel-ide-helper": "1.*",
-    "barryvdh/laravel-cors": "0.2.*"
+    "barryvdh/laravel-cors": "0.2.*",
+    "pirminis/maybe-monad": "~1.2"
   },
   "autoload": {
     "classmap": [
@@ -21,7 +22,8 @@
       "app/database/seeds",
       "app/tests/TestCase.php",
       "app/Arato"
-    ]
+    ],
+    "files": ["vendor/pirminis/maybe-monad/lib/global.php"]
   },
   "scripts": {
     "post-install-cmd": [

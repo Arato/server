@@ -37,7 +37,7 @@ abstract class Repository
 
     public function create($inputs)
     {
-        return $this->model->create($inputs)->toArray();
+        return $this->model->create($inputs);
     }
 
     public function update($id, $input)
