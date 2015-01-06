@@ -21,8 +21,12 @@ class RemindersController extends ApiController
      */
     public function remind()
     {
-        switch ($response = Password::remind(Input::only('email'))) {
-            case Password::INVALID_USER:
+        $response = Password::remind(Input::only('email'), function ($message) {
+            $message->subject('Password Reminder');
+        });
+        switch ($response) {
+            case
+            Password::INVALID_USER:
                 return $this->setStatusCode(400)->respondWithError(Lang::get($response));
             case Password::REMINDER_SENT:
                 return $this->respond("");
@@ -30,27 +34,11 @@ class RemindersController extends ApiController
     }
 
     /**
-     * Display the password reset view for the given token.
-     *
-     * @param  string $token
-     *
-     * @return Response
-     */
-    public
-    function getReset($token = null)
-    {
-        if (is_null($token)) App::abort(404);
-
-        return View::make('password.reset')->with('token', $token);
-    }
-
-    /**
      * Handle a POST request to reset a user's password.
      *
      * @return Response
      */
-    public
-    function postReset()
+    public function reset()
     {
         $credentials = Input::only(
             'email', 'password', 'password_confirmation', 'token'
@@ -66,11 +54,10 @@ class RemindersController extends ApiController
             case Password::INVALID_PASSWORD:
             case Password::INVALID_TOKEN:
             case Password::INVALID_USER:
-                return Redirect::back()->with('error', Lang::get($response));
+                return $this->setStatusCode(400)->respondWithError(Lang::get($response));
 
             case Password::PASSWORD_RESET:
-                return Redirect::to('/');
+                return $this->respond("");
         }
     }
-
 }

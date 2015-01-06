@@ -17,7 +17,7 @@ Route::post('/login', ['uses' => 'AuthController@login']);
 Route::post('/logout', ['uses' => 'AuthController@logout']);
 
 Route::post('/password/remind', ['uses' => 'RemindersController@remind']);
-
+Route::post('/password/reset', ['uses' => 'RemindersController@reset']);
 
 Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('alerts', 'AlertsController');
