@@ -95,7 +95,7 @@ class UsersController extends ApiController
             return $this->respondForbidden();
         }
 
-        $validation = $this->userRepository->isValidForUpdate(Input::all());
+        $validation = $this->userRepository->isValidForUpdate(Input::all(), $id);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);

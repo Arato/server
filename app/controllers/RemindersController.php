@@ -44,6 +44,11 @@ class RemindersController extends ApiController
             'email', 'password', 'password_confirmation', 'token'
         );
 
+
+        Password::validator(function ($credentials) {
+            return strlen($credentials['password']) >= 1;
+        });
+
         $response = Password::reset($credentials, function ($user, $password) {
             $user->password = Hash::make($password);
 

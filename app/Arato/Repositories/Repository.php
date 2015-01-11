@@ -22,7 +22,7 @@ abstract class Repository
 
     public abstract function isValidForCreation(Array $data);
 
-    public abstract function isValidForUpdate(Array $data);
+    public abstract function isValidForUpdate(Array $data, $id);
 
 
     public function all()

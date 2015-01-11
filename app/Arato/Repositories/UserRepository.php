@@ -1,7 +1,6 @@
 <?php
 namespace Arato\Repositories;
 
-use Log;
 use stdClass;
 use Underscore\Parse;
 use Illuminate\Support\Facades\Validator;
@@ -43,22 +42,23 @@ class UserRepository extends Repository
         return $object;
     }
 
-    public function isValidForUpdate(Array $data)
+    public function isValidForUpdate(Array $data, $id)
     {
         $rules = [
-            'email'    => ['email'],
+            'email'    => ['email', 'unique:users,email,' . $id],
             'password' => ['confirmed']
         ];
 
         $validator = Validator::make($data, $rules);
         $object = new stdClass();
         $object->passes = $validator->passes();
-        $validator->messages = $validator->messages()->toArray();
+        $object->messages = $validator->messages()->toArray();
 
-        return $validator;
+        return $object;
     }
 
-    public function findByEmail($email)
+    public
+    function findByEmail($email)
     {
         return $this->model->where('email', $email);
     }

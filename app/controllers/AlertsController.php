@@ -95,7 +95,7 @@ class AlertsController extends ApiController
             return $this->respondForbidden();
         }
 
-        $validation = $this->alertRepository->isValidForUpdate(Input::all());
+        $validation = $this->alertRepository->isValidForUpdate(Input::all(), $id);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);

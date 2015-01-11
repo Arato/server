@@ -3,6 +3,7 @@ namespace Arato\Repositories;
 
 use Alert;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 use Underscore\Parse;
 use Underscore\Types\Arrays;
 
@@ -68,12 +69,12 @@ class AlertRepository extends Repository
         $validator = Validator::make($data, $rules);
         $object = new stdClass();
         $object->passes = $validator->passes();
-        $validator->messages = $validator->messages()->toArray();
+        $object->messages = $validator->messages()->toArray();
 
         return $object;
     }
 
-    public function isValidForUpdate(Array $data)
+    public function isValidForUpdate(Array $data, $id)
     {
         $rules = [
             'price' => ['min:0']
@@ -82,7 +83,7 @@ class AlertRepository extends Repository
         $validator = Validator::make($data, $rules);
         $object = new stdClass();
         $object->passes = $validator->passes();
-        $validator->messages = $validator->messages()->toArray();
+        $object->messages = $validator->messages()->toArray();
 
         return $object;
     }
