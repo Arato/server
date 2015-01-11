@@ -39,10 +39,10 @@ class AlertsController extends ApiController
      */
     public function store()
     {
-        $isValidAlert = $this->alertRepository->isValidForCreation(Input::all());
+        $validation = $this->alertRepository->isValidForCreation(Input::all());
 
-        if (!$isValidAlert) {
-            return $this->respondFailedValidation();
+        if (!$validation->passes) {
+            return $this->respondFailedValidation($validation->messages);
         }
 
         $inputs = Input::all();
@@ -95,10 +95,10 @@ class AlertsController extends ApiController
             return $this->respondForbidden();
         }
 
-        $isValidAlert = $this->alertRepository->isValidForUpdate(Input::all());
+        $validation = $this->alertRepository->isValidForUpdate(Input::all());
 
-        if (!$isValidAlert) {
-            return $this->respondFailedValidation();
+        if (!$validation->passes) {
+            return $this->respondFailedValidation($validation->messages);
         }
 
         $updatedAlert = $this->alertRepository->update($id, Input::all());

@@ -66,8 +66,11 @@ class AlertRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
+        $object = new stdClass();
+        $object->passes = $validator->passes();
+        $validator->messages = $validator->messages()->toArray();
 
-        return $validator->passes();
+        return $object;
     }
 
     public function isValidForUpdate(Array $data)
@@ -77,7 +80,10 @@ class AlertRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
+        $object = new stdClass();
+        $object->passes = $validator->passes();
+        $validator->messages = $validator->messages()->toArray();
 
-        return $validator->passes();
+        return $object;
     }
 }

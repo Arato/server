@@ -2,6 +2,7 @@
 namespace Arato\Repositories;
 
 use Log;
+use stdClass;
 use Underscore\Parse;
 use Illuminate\Support\Facades\Validator;
 use Underscore\Types\Arrays;
@@ -35,8 +36,11 @@ class UserRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
+        $object = new stdClass();
+        $object->passes = $validator->passes();
+        $object->messages = $validator->messages()->toArray();
 
-        return $validator->passes();
+        return $object;
     }
 
     public function isValidForUpdate(Array $data)
@@ -47,8 +51,11 @@ class UserRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
+        $object = new stdClass();
+        $object->passes = $validator->passes();
+        $validator->messages = $validator->messages()->toArray();
 
-        return $validator->passes();
+        return $validator;
     }
 
     public function findByEmail($email)

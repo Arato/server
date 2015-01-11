@@ -39,10 +39,10 @@ class UsersController extends ApiController
      */
     public function store()
     {
-        $isValidUser = $this->userRepository->isValidForCreation(Input::all());
+        $validation = $this->userRepository->isValidForCreation(Input::all());
 
-        if (!$isValidUser) {
-            return $this->respondFailedValidation();
+        if (!$validation->passes) {
+            return $this->respondFailedValidation($validation->messages);
         }
 
         $data = Input::all();
@@ -95,12 +95,11 @@ class UsersController extends ApiController
             return $this->respondForbidden();
         }
 
-        $isValidUser = $this->userRepository->isValidForUpdate(Input::all());
+        $validation = $this->userRepository->isValidForUpdate(Input::all());
 
-        if (!$isValidUser) {
-            return $this->respondFailedValidation();
+        if (!$validation->passes) {
+            return $this->respondFailedValidation($validation->messages);
         }
-
 
         $data = Input::all();
         if (Input::get('password')) {
