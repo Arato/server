@@ -109,7 +109,7 @@ class UsersController extends ApiController
 
 
         return $this->respond([
-            'users' => $updatedUser
+            'users' => $this->userTransformer->transform($updatedUser)
         ]);
     }
 
