@@ -28,7 +28,7 @@ class AlertsController extends ApiController
         $alerts = $this->alertRepository->filter(Input::all());
 
         return $this->respondWithPagination($alerts, [
-            'alerts' => $this->alertTransformer->transformCollection($alerts->all())
+            'data' => $this->alertTransformer->transformCollection($alerts->all())
         ]);
     }
 
