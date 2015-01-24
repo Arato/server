@@ -22,6 +22,7 @@
       "app/database/migrations",
       "app/database/seeds",
       "app/tests/TestCase.php",
+      "app/tests/helpers",
       "app/Arato"
     ],
     "files": ["vendor/pirminis/maybe-monad/lib/global.php"]
