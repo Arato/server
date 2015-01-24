@@ -1,5 +1,6 @@
 <?php
 use tests\helpers\Factory;
+use tests\helpers\ApiTester;
 
 class AlertsControllerFunctionalTest extends ApiTester
 {
