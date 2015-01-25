@@ -12,6 +12,7 @@ abstract class ApiTester extends \TestCase
     {
         parent::setUp();
         Artisan::call('migrate');
+        Route::enableFilters();
     }
 
     function __construct()

@@ -91,7 +91,8 @@ class AlertsController extends ApiController
         if (!$alert) {
             return $this->respondNotFound('Alert does not exist.');
         }
-        if (Auth::user()->id !== $alert['user_id']) {
+
+        if (Auth::user()->id != $alert['user_id']) {
             return $this->respondForbidden();
         }
 
@@ -118,6 +119,7 @@ class AlertsController extends ApiController
      */
     public function destroy($id)
     {
+        dd($id);
         $alert = $this->alertRepository->find($id);
 
         if (!$alert) {

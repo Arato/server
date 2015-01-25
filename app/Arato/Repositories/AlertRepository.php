@@ -63,7 +63,7 @@ class AlertRepository extends Repository
     {
         $rules = [
             'title' => 'required',
-            'price' => ['required', 'min:0']
+            'price' => ['required', 'integer', 'min:0']
         ];
 
         $validator = Validator::make($data, $rules);
@@ -77,7 +77,7 @@ class AlertRepository extends Repository
     public function isValidForUpdate(Array $data, $id)
     {
         $rules = [
-            'price' => ['min:0']
+            'price' => ['integer', 'min:0']
         ];
 
         $validator = Validator::make($data, $rules);

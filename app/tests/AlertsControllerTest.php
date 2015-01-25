@@ -1,7 +1,7 @@
 <?php
 use tests\helpers\Factory;
 
-class AlertsControllerFunctionalTest extends ApiTester
+class AlertsControllerTest extends ApiTester
 {
     use Factory;
 
@@ -16,7 +16,6 @@ class AlertsControllerFunctionalTest extends ApiTester
     /** @test */
     public function it_fetches_alerts()
     {
-
         $this->make('Alert');
 
         $this->getJson('api/v1/alerts');
@@ -31,7 +30,7 @@ class AlertsControllerFunctionalTest extends ApiTester
         $alert = $this->getJson('api/v1/alerts/1')->alerts;
 
         $this->assertResponseOk();
-        $this->assertObjectHasAttributes($alert, ['title', 'price'], 'content');
+        $this->assertObjectHasAttributes($alert, ['title', 'price', 'content']);
     }
 
     /** @test */
@@ -56,6 +55,39 @@ class AlertsControllerFunctionalTest extends ApiTester
         $this->getJson('api/v1/alerts', 'POST');
 
         $this->assertResponseStatus(400);
+    }
+
+    /** @test */
+    public function it_updates_an_alert_given_valid_parameters()
+    {
+        $this->make('Alert');
+        $updatedAlert = $this->getJson('api/v1/alerts/1', 'PUT', [
+            'title' => "my second title"
+        ]);
+
+        $this->assertResponseStatus(200);
+        $this->assertEquals($updatedAlert->alerts->title, "my second title");
+    }
+
+    /** @test */
+    public function it_throw_a_bad_request_error_if_an_updated_alert_request_fails_validation()
+    {
+        $this->make('Alert');
+        $this->getJson('api/v1/alerts/1', 'PUT', [
+            'price' => -3
+        ]);
+
+        $this->assertResponseStatus(400);
+    }
+
+    /** @test */
+    public function it_deletes_an_alert()
+    {
+        $this->getJson('api/v1/alerts', 'POST', $this->getStub());
+        $deletedAlert = $this->getJson('api/v1/alerts/1', 'DELETE');
+
+        $this->assertResponseStatus(200);
+        $this->equals($deletedAlert->alerts, 'Alert successfully deleted.');
     }
 
     /**
