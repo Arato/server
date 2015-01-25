@@ -5,9 +5,18 @@ class AlertsControllerFunctionalTest extends ApiTester
 {
     use Factory;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $user = User::create(['email' => 'testing@testing.com', 'password' => 'password']);
+        $this->be($user);
+    }
+
     /** @test */
     public function it_fetches_alerts()
     {
+
         $this->make('Alert');
 
         $this->getJson('api/v1/alerts');
@@ -19,7 +28,7 @@ class AlertsControllerFunctionalTest extends ApiTester
     public function it_fetches_a_single_alert()
     {
         $this->make('Alert');
-        $alert = $this->getJson('api/v1/alerts/1')->data;
+        $alert = $this->getJson('api/v1/alerts/1')->alerts;
 
         $this->assertResponseOk();
         $this->assertObjectHasAttributes($alert, ['title', 'price'], 'content');
@@ -31,13 +40,12 @@ class AlertsControllerFunctionalTest extends ApiTester
         $alert = $this->getJson('api/v1/alerts/2');
         $this->assertResponseStatus(404);
         $this->assertObjectHasAttributes($alert, ['error']);
-
     }
 
     /** @test */
     public function it_creates_a_new_alert_given_valid_parameters()
     {
-        $this->getJson('api/v1/alert', 'POST', $this->getStub());
+        $this->getJson('api/v1/alerts', 'POST', $this->getStub());
 
         $this->assertResponseStatus(201);
     }
@@ -58,8 +66,9 @@ class AlertsControllerFunctionalTest extends ApiTester
     {
         return [
             'title'   => $this->fake->sentence(),
-            'price'   => $this->fake->numberBetween(0, 100),
-            'content' => $this->fake->paragraph()
+            'price'   => $this->fake->randomDigitNotNull,
+            'content' => $this->fake->paragraph(),
+            'user_id' => 1
         ];
     }
 }

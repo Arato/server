@@ -14,7 +14,7 @@ class AddSequenceNumber extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('sequence_number');
+            $table->integer('sequence_number')->default(0);
         });
     }
 
