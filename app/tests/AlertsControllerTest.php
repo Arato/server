@@ -83,11 +83,11 @@ class AlertsControllerTest extends ApiTester
     /** @test */
     public function it_deletes_an_alert()
     {
-        $this->getJson('api/v1/alerts', 'POST', $this->getStub());
+        $this->make('Alert');
         $deletedAlert = $this->getJson('api/v1/alerts/1', 'DELETE');
 
         $this->assertResponseStatus(200);
-        $this->equals($deletedAlert->alerts, 'Alert successfully deleted.');
+        $this->assertEquals($deletedAlert->alerts, 'Alert successfully deleted.');
     }
 
     /**

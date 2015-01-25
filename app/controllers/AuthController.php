@@ -16,8 +16,8 @@ class AuthController extends ApiController
     public function login()
     {
         $rules = [
-            'email'    => 'required|email',
-            'password' => 'required|alphaNum'
+            'email'    => ['required', 'email'],
+            'password' => ['required', 'alphaNum']
         ];
 
         $validator = Validator::make(Input::all(), $rules);
@@ -30,7 +30,7 @@ class AuthController extends ApiController
             'password' => Input::get('password')
         ];
 
-        if (Auth::attempt($userData, false)) {
+        if (Auth::attempt($userData)) {
             return $this->respond([
                 'data' => $this->userTransformer->transform(Auth::user())
             ]);
