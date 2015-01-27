@@ -131,8 +131,6 @@ class AlertsController extends ApiController
 
         $this->alertRepository->delete($id);
 
-        return $this->respondDeleted([
-            'alerts' => 'Alert successfully deleted.'
-        ]);
+        return $this->respondDeleted();
     }
 }
