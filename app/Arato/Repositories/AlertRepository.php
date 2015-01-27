@@ -2,8 +2,8 @@
 namespace Arato\Repositories;
 
 use Alert;
+use Arato\utils\PostValidator;
 use Illuminate\Support\Facades\Validator;
-use stdClass;
 use Underscore\Parse;
 use Underscore\Types\Arrays;
 
@@ -56,7 +56,7 @@ class AlertRepository extends Repository
             })
             ->val($this->defaultOrder);
 
-        return $query->with([])->orderBy($sortBy, $order)->paginate($limit);
+        return $query->with('user')->orderBy($sortBy, $order)->paginate($limit);
     }
 
     public function isValidForCreation(Array $data)
@@ -67,9 +67,8 @@ class AlertRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
-        $object = new stdClass();
-        $object->passes = $validator->passes();
-        $object->messages = $validator->messages()->toArray();
+
+        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
 
         return $object;
     }
@@ -81,9 +80,8 @@ class AlertRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
-        $object = new stdClass();
-        $object->passes = $validator->passes();
-        $object->messages = $validator->messages()->toArray();
+
+        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
 
         return $object;
     }

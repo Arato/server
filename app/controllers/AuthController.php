@@ -43,6 +43,6 @@ class AuthController extends ApiController
     {
         Auth::logout();
 
-        return $this->respondDeleted();
+        return $this->respondNoContent();
     }
 }

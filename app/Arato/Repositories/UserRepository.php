@@ -35,9 +35,8 @@ class UserRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
-        $object = new stdClass();
-        $object->passes = $validator->passes();
-        $object->messages = $validator->messages()->toArray();
+
+        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
 
         return $object;
     }
@@ -50,9 +49,8 @@ class UserRepository extends Repository
         ];
 
         $validator = Validator::make($data, $rules);
-        $object = new stdClass();
-        $object->passes = $validator->passes();
-        $object->messages = $validator->messages()->toArray();
+
+        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
 
         return $object;
     }

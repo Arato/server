@@ -135,6 +135,6 @@ class UsersController extends ApiController
 
         $this->userRepository->delete($id);
 
-        return $this->respondDeleted();
+        return $this->respondNoContent();
     }
 }

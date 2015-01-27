@@ -28,7 +28,7 @@ class AlertsController extends ApiController
         $alerts = $this->alertRepository->filter(Input::all());
 
         return $this->respondWithPagination($alerts, [
-            'data' => $this->alertTransformer->transformCollection($alerts->all())
+            'alerts' => $this->alertTransformer->transformCollection($alerts->all())
         ]);
     }
 
@@ -92,7 +92,7 @@ class AlertsController extends ApiController
             return $this->respondNotFound('Alert does not exist.');
         }
 
-        if (Auth::user()->id != $alert['user_id']) {
+        if (!$this->canConnectedUserEditElement($alert['user_id'])) {
             return $this->respondForbidden();
         }
 
@@ -125,12 +125,12 @@ class AlertsController extends ApiController
             return $this->respondNotFound('Alert does not exist.');
         }
 
-        if (Auth::user()->id != $alert['user_id']) {
+        if (!$this->canConnectedUserEditElement($alert['user_id'])) {
             return $this->respondForbidden();
         }
 
         $this->alertRepository->delete($id);
 
-        return $this->respondDeleted();
+        return $this->respondNoContent();
     }
 }

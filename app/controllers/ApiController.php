@@ -4,6 +4,7 @@
 namespace controllers;
 
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Response as IlluminateResponse;
@@ -34,13 +35,18 @@ class ApiController extends \BaseController
     }
 
 
+    public function canConnectedUserEditElement($id)
+    {
+        return Auth::user()->id == $id;
+    }
+
     /**
      * @param       $data    - data to send trough the API
      * @param array $headers - optional headers for the HTTP Response
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respond($data, $headers = [])
+    public function respond($data = [], $headers = [])
     {
         return Response::json($data, $this->getStatusCode(), $headers);
     }
@@ -88,11 +94,10 @@ class ApiController extends \BaseController
     }
 
     /**
-     * @param Array $data
      *
      * @return mixed
      */
-    public function respondDeleted($data)
+    public function respondNoContent()
     {
         return $this
             ->setStatusCode(IlluminateResponse::HTTP_NO_CONTENT)

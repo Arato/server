@@ -11,8 +11,12 @@ class AlertTransformer extends Transformer
             'title'      => $item['title'],
             'content'    => $item['content'],
             'price'      => $item['price'],
-            'user_id'    => $item['user_id'],
-            'created_at' => $item['created_at']->toIso8601String()
+            'user'       => [
+                'id'    => $item->user['id'],
+                'email' => $item->user['email']
+            ],
+            'created_at' => $item['created_at']->toIso8601String(),
+            'updated_at' => $item['updated_at']->toIso8601String()
         ];
     }
 }

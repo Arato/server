@@ -14,16 +14,14 @@ class AuthControllerTest extends ApiTester
     public function it_should_log_in_user()
     {
         User::create([
-            'email'    => 'testing@testing.com',
-            'password' => 'testing'
-
+            'email'          => 'testing@testing.com',
+            'password'       => 'testing'
         ]);
 
         $credentials = [
             'email'    => 'testing@testing.com',
             'password' => 'testing'
         ];
-
         $this->getJson('login', 'POST', $credentials);
 
         $this->assertResponseOk();
@@ -52,8 +50,8 @@ class AuthControllerTest extends ApiTester
         ]);
         $this->be($user);
 
-        $response = $this->getJson('logout', 'POST');
-        $this->assertEquals($response->message, 'Successfully logged out.');
+        $this->getJson('logout', 'POST');
+        $this->assertResponseStatus(204);
     }
 
     /**
