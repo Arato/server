@@ -12,7 +12,7 @@ class AlertsController extends ApiController
 
     function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository)
     {
-        $this->beforeFilter('auth.basic');
+        $this->beforeFilter('auth.basic', ['except' => ['index', 'show']]);
 
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
