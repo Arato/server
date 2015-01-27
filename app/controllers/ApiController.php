@@ -95,8 +95,8 @@ class ApiController extends \BaseController
     public function respondDeleted($data)
     {
         return $this
-            ->setStatusCode(IlluminateResponse::HTTP_OK)
-            ->respond($data);
+            ->setStatusCode(IlluminateResponse::HTTP_NO_CONTENT)
+            ->respond();
     }
 
 
