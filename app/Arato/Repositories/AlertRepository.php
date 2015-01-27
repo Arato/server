@@ -33,7 +33,7 @@ class AlertRepository extends Repository
             })
             ->val($this->defaultLimit);
 
-        $availableSorts = ['created_at', 'price'];
+        $availableSorts = ['id', 'created_at', 'price'];
 
         $sortBy = Maybe(Arrays::get($filters, 'sort'))
             ->map(function ($maybe) use ($availableSorts) {
