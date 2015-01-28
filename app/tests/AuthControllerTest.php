@@ -14,8 +14,8 @@ class AuthControllerTest extends ApiTester
     public function it_should_log_in_user()
     {
         User::create([
-            'email'          => 'testing@testing.com',
-            'password'       => 'testing'
+            'email'    => 'testing@testing.com',
+            'password' => Hash::make('testing')
         ]);
 
         $credentials = [
@@ -32,7 +32,7 @@ class AuthControllerTest extends ApiTester
     {
         User::create([
             'email'    => 'testing@testing.com',
-            'password' => 'testing'
+            'password' => Hash::make('testing')
         ]);
         $this->getJson('login', 'POST', [
             'email'    => 'testing@testing.com',
