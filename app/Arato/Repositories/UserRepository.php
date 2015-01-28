@@ -1,9 +1,8 @@
 <?php
 namespace Arato\Repositories;
 
-use stdClass;
+use Arato\utils\PostValidator;
 use Underscore\Parse;
-use Illuminate\Support\Facades\Validator;
 use Underscore\Types\Arrays;
 use User;
 
@@ -25,34 +24,6 @@ class UserRepository extends Repository
             ->val($this->defaultLimit);
 
         return $this->model->with([])->paginate($limit);
-    }
-
-    public function isValidForCreation(Array $data)
-    {
-        $rules = [
-            'email'    => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'confirmed']
-        ];
-
-        $validator = Validator::make($data, $rules);
-
-        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
-
-        return $object;
-    }
-
-    public function isValidForUpdate(Array $data, $id)
-    {
-        $rules = [
-            'email'    => ['email', 'unique:users,email,' . $id],
-            'password' => ['confirmed']
-        ];
-
-        $validator = Validator::make($data, $rules);
-
-        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
-
-        return $object;
     }
 
     public

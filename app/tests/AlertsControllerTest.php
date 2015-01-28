@@ -8,9 +8,7 @@ class AlertsControllerTest extends ApiTester
     public function setUp()
     {
         parent::setUp();
-
-        $user = User::create(['email' => 'testing@testing.com', 'password' => 'password']);
-        $this->be($user);
+        $this->createUserAndAuthenticate();
     }
 
     /** @test */
@@ -62,7 +60,8 @@ class AlertsControllerTest extends ApiTester
     {
         $this->make('Alert');
         $updatedAlert = $this->getJson('api/v1/alerts/1', 'PUT', [
-            'title' => "my second title"
+            'title' => "my second title",
+            'price' => 10
         ]);
 
         $this->assertResponseStatus(200);

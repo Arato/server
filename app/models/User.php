@@ -4,8 +4,9 @@ use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use models\ApiModel;
 
-class User extends Eloquent implements UserInterface, RemindableInterface
+class User extends ApiModel implements UserInterface, RemindableInterface
 {
 
     use UserTrait, RemindableTrait;
@@ -31,4 +32,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface
      */
     protected $hidden = ['password', 'remember_token'];
 
+
+    protected $commonRules = [
+        'email' => ['required', 'email', 'unique:users'],
+    ];
+
+    protected $rulesForCreation = [
+        'password' => ['required', 'confirmed']
+    ];
+
+    protected $rulesForUpdate = [
+        'password' => ['confirmed']
+    ];
 }

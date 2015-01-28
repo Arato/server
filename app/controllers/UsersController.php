@@ -39,13 +39,13 @@ class UsersController extends ApiController
      */
     public function store()
     {
-        $validation = $this->userRepository->isValidForCreation(Input::all());
+        $data = Input::all();
+        $validation = $this->userRepository->isValidForCreation('User', $data);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);
         }
 
-        $data = Input::all();
         $data['password'] = Hash::make(Input::get('password'));
 
         $createdUser = $this->userRepository->create($data);
@@ -86,27 +86,28 @@ class UsersController extends ApiController
      */
     public function update($id)
     {
+        $data = Input::all();
+
         $user = $this->userRepository->find($id);
 
         if (!$user) {
             return $this->respondNotFound('User does not exist.');
         }
-        if (Auth::user()->id !== $user['id']) {
+        if (!$this->canConnectedUserEditElement($user['id'])) {
             return $this->respondForbidden();
         }
 
-        $validation = $this->userRepository->isValidForUpdate(Input::all(), $id);
+        $validation = $this->userRepository->isValidForUpdate('User', $data);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);
         }
 
-        $data = Input::all();
         if (Input::get('password')) {
             $data['password'] = Hash::make(Input::get('password'));
         }
-        $updatedUser = $this->userRepository->update($id, $data);
 
+        $updatedUser = $this->userRepository->update($id, $data);
 
         return $this->respond([
             'users' => $this->userTransformer->transform($updatedUser)
@@ -129,7 +130,7 @@ class UsersController extends ApiController
             return $this->respondNotFound('User does not exist.');
         }
 
-        if (Auth::user()->id !== $user['id']) {
+        if (!$this->canConnectedUserEditElement($user['id'])) {
             return $this->respondForbidden();
         }
 

@@ -4,6 +4,7 @@ namespace Arato\Repositories;
 use Alert;
 use Arato\utils\PostValidator;
 use Illuminate\Support\Facades\Validator;
+use models\enum\Action;
 use Underscore\Parse;
 use Underscore\Types\Arrays;
 
@@ -57,32 +58,5 @@ class AlertRepository extends Repository
             ->val($this->defaultOrder);
 
         return $query->with('user')->orderBy($sortBy, $order)->paginate($limit);
-    }
-
-    public function isValidForCreation(Array $data)
-    {
-        $rules = [
-            'title' => 'required',
-            'price' => ['required', 'integer', 'min:0']
-        ];
-
-        $validator = Validator::make($data, $rules);
-
-        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
-
-        return $object;
-    }
-
-    public function isValidForUpdate(Array $data, $id)
-    {
-        $rules = [
-            'price' => ['integer', 'min:0']
-        ];
-
-        $validator = Validator::make($data, $rules);
-
-        $object = new PostValidator($validator->passes(), $validator->messages()->toArray());
-
-        return $object;
     }
 }

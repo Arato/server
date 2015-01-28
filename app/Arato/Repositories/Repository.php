@@ -2,8 +2,9 @@
 
 namespace Arato\Repositories;
 
+use Arato\utils\PostValidator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use models\enum\Action;
 
 abstract class Repository
 {
@@ -20,9 +21,25 @@ abstract class Repository
 
     public abstract function filter(Array $filters);
 
-    public abstract function isValidForCreation(Array $data);
+    public function isValidForCreation($type, Array $data)
+    {
+        $user = new $type();
+        $validated = $user->validate($data, Action::CREATION);
 
-    public abstract function isValidForUpdate(Array $data, $id);
+        $object = new PostValidator($validated, $user->errors());
+
+        return $object;
+    }
+
+    public function isValidForUpdate($type, Array $data)
+    {
+        $user = new $type();
+        $validated = $user->validate($data, Action::UPDATE);
+
+        $object = new PostValidator($validated, $user->errors());
+
+        return $object;
+    }
 
 
     public function all()
