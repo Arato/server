@@ -39,16 +39,16 @@ class UsersController extends ApiController
      */
     public function store()
     {
-        $data = Input::all();
-        $validation = $this->userRepository->isValidForCreation('User', $data);
+        $inputs = Input::all();
+        $validation = $this->userRepository->isValidForCreation('User', $inputs);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);
         }
 
-        $data['password'] = Hash::make(Input::get('password'));
+        $inputs['password'] = Hash::make(Input::get('password'));
 
-        $createdUser = $this->userRepository->create($data);
+        $createdUser = $this->userRepository->create($inputs);
 
         return $this->respondCreated([
             'users' => $this->userTransformer->transform($createdUser)
@@ -86,10 +86,9 @@ class UsersController extends ApiController
      */
     public function update($id)
     {
-        $data = Input::all();
-
         $user = $this->userRepository->find($id);
-
+        $inputs = Input::all();
+ 
         if (!$user) {
             return $this->respondNotFound('User does not exist.');
         }
@@ -97,17 +96,17 @@ class UsersController extends ApiController
             return $this->respondForbidden();
         }
 
-        $validation = $this->userRepository->isValidForUpdate('User', $data);
+        $validation = $this->userRepository->isValidForUpdate('User', $inputs);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);
         }
 
         if (Input::get('password')) {
-            $data['password'] = Hash::make(Input::get('password'));
+            $inputs['password'] = Hash::make(Input::get('password'));
         }
 
-        $updatedUser = $this->userRepository->update($id, $data);
+        $updatedUser = $this->userRepository->update($id, $inputs);
 
         return $this->respond([
             'users' => $this->userTransformer->transform($updatedUser)
