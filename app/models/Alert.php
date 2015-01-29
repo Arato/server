@@ -20,7 +20,9 @@ class Alert extends ApiModel
     ];
 
     protected $rulesForCreation = [];
-    protected $rulesForUpdate = [];
+    protected $rulesForUpdate = [
+        'user_id' => 'required'
+    ];
 
     public function user()
     {
