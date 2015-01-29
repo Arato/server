@@ -12,7 +12,7 @@ class UsersController extends ApiController
 
     function __construct(UserRepository $userRepository, UserTransformer $userTransformer)
     {
-        $this->beforeFilter('auth.basic', ['only' => ['update', 'delete']);
+        $this->beforeFilter('auth.basic', ['only' => ['update', 'delete']]);
 
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
