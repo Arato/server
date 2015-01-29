@@ -107,7 +107,7 @@ class AlertsController extends ApiController
 
         
         $inputs['user_id'] = Auth::user()->id;
-        $updatedAlert = $this->alertRepository->update($id, inputs);
+        $updatedAlert = $this->alertRepository->update($id, $inputs);
 
         return $this->respond([
             'alerts' => $this->alertTransformer->transform($updatedAlert)
