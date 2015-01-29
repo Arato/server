@@ -29,7 +29,7 @@ class RemindersController extends ApiController
             Password::INVALID_USER:
                 return $this->setStatusCode(400)->respondWithError(Lang::get($response));
             case Password::REMINDER_SENT:
-                return $this->respond("");
+                return $this->respondNoContent();
         }
     }
 
