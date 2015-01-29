@@ -62,7 +62,7 @@ class RemindersController extends ApiController
                 return $this->setStatusCode(400)->respondWithError(Lang::get($response));
 
             case Password::PASSWORD_RESET:
-                return $this->respond("");
+                return $this->respondNoContent();
         }
     }
 }
