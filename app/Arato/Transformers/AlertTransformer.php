@@ -9,8 +9,8 @@ class AlertTransformer extends Transformer
         return [
             'id'         => $item['id'],
             'title'      => $item['title'],
-            'content'    => $item['content'],
             'price'      => $item['price'],
+            'content'    => $item['content'],
             'user'       => [
                 'id'    => $item->user['id'],
                 'email' => $item->user['email']

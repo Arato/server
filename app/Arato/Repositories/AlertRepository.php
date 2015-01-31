@@ -2,9 +2,6 @@
 namespace Arato\Repositories;
 
 use Alert;
-use Arato\utils\PostValidator;
-use Illuminate\Support\Facades\Validator;
-use models\enum\Action;
 use Underscore\Parse;
 use Underscore\Types\Arrays;
 
@@ -18,13 +15,6 @@ class AlertRepository extends Repository
     public function filter(Array $filters)
     {
         $query = $this->model;
-
-        $userId = Maybe(Arrays::get($filters, 'userId'))
-            ->val();
-
-        if ($userId) {
-            $query = $query->where('user_id', '=', $userId);
-        }
 
         $limit = Maybe(Arrays::get($filters, 'limit'))
             ->map(function ($maybe) {

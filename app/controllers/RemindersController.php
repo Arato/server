@@ -1,17 +1,11 @@
 <?php
-use Arato\Repositories\UserRepository;
 use controllers\ApiController;
-use Illuminate\Auth\Reminders\ReminderRepositoryInterface;
+
 
 class RemindersController extends ApiController
 {
-    protected $userRepository;
-    protected $reminders;
-
-    function __construct(UserRepository $userRepository, ReminderRepositoryInterface $reminders)
+    function __construct()
     {
-        $this->userRepository = $userRepository;
-        $this->reminders = $reminders;
     }
 
     /**
@@ -25,11 +19,12 @@ class RemindersController extends ApiController
             $message->subject('Password Reminder');
         });
         switch ($response) {
-            case
-            Password::INVALID_USER:
-                return $this->setStatusCode(400)->respondWithError(Lang::get($response));
             case Password::REMINDER_SENT:
                 return $this->respondNoContent();
+            case Password::INVALID_USER:
+                return $this->respondNotFound('User does not exist.');
+            default :
+                return $this->setStatusCode(404)->respondWithError(Lang::get($response));
         }
     }
 
@@ -56,13 +51,14 @@ class RemindersController extends ApiController
         });
 
         switch ($response) {
-            case Password::INVALID_PASSWORD:
-            case Password::INVALID_TOKEN:
-            case Password::INVALID_USER:
-                return $this->setStatusCode(400)->respondWithError(Lang::get($response));
-
             case Password::PASSWORD_RESET:
                 return $this->respondNoContent();
+            case Password::INVALID_USER:
+                return $this->respondNotFound('User does not exist.');
+            case Password::INVALID_PASSWORD:
+            case Password::INVALID_TOKEN:
+            default:
+                return $this->setStatusCode(400)->respondWithError(Lang::get($response));
         }
     }
 }
