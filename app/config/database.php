@@ -53,10 +53,10 @@ return [
 
         'mysql'  => [
             'driver'    => 'mysql',
-            'host'      => $_ENV['database']["host"],
-            'database'  => $_ENV['database']["database"],
-            'username'  => $_ENV['database']["username"],
-            'password'  => $_ENV['database']["password"],
+            'host'      => $_ENV['database.host'],
+            'database'  => $_ENV['database.database'],
+            'username'  => $_ENV['database.username'],
+            'password'  => $_ENV['database.password'],
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

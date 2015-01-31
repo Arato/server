@@ -24,6 +24,20 @@ class AlertRepository extends Repository
             })
             ->val($this->defaultLimit);
 
+        $priceMax = Maybe(Arrays::get($filters, 'priceMin'))
+            ->val();
+
+        if ($priceMax) {
+            $query = $query->where('price', '>=', $priceMax);
+        }
+
+        $priceMax = Maybe(Arrays::get($filters, 'priceMax'))
+            ->val();
+
+        if ($priceMax) {
+            $query = $query->where('price', '<=', $priceMax);
+        }
+
         $availableSorts = ['id', 'created_at', 'price'];
 
         $sortBy = Maybe(Arrays::get($filters, 'sort'))

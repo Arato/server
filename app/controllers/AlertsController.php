@@ -40,16 +40,14 @@ class AlertsController extends ApiController
     public function store()
     {
         $inputs = Input::all();
-        
+
         $validation = $this->alertRepository->isValidForCreation('Alert', $inputs);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);
         }
 
-        
         $inputs['user_id'] = Auth::user()->id;
-
         $createdAlert = $this->alertRepository->create($inputs);
 
         return $this->respondCreated([
@@ -90,7 +88,7 @@ class AlertsController extends ApiController
     {
         $alert = $this->alertRepository->find($id);
         $inputs = Input::all();
-        
+
         if (!$alert) {
             return $this->respondNotFound('Alert does not exist.');
         }
@@ -98,14 +96,13 @@ class AlertsController extends ApiController
         if (!$this->canConnectedUserEditElement($alert['user_id'])) {
             return $this->respondForbidden();
         }
-        
+
         $validation = $this->alertRepository->isValidForUpdate('Alert', $inputs);
 
         if (!$validation->passes) {
             return $this->respondFailedValidation($validation->messages);
         }
 
-        
         $inputs['user_id'] = Auth::user()->id;
         $updatedAlert = $this->alertRepository->update($id, $inputs);
 

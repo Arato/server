@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'host'       => $_ENV['smtp']['host'],
+    'host'       => $_ENV['smtp.host'],
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'port'       => $_ENV['smtp']['port'],
+    'port'       => $_ENV['smtp.port'],
 
     /*
     |--------------------------------------------------------------------------
@@ -55,8 +55,8 @@ return [
     */
 
     'from'       => [
-        'address' => $_ENV['mail']['address'],
-        'name'    => $_ENV['mail']['name']
+        'address' => $_ENV['mail.address'],
+        'name'    => $_ENV['mail.name']
     ],
 
     /*
@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'username'   => $_ENV['smtp']['username'],
+    'username'   => $_ENV['smtp.username'],
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'password'   => $_ENV['smtp']['password'],
+    'password'   => $_ENV['smtp.password'],
 
     /*
     |--------------------------------------------------------------------------
