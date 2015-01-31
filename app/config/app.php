@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'key'             => '2wNh0d6DYzaEMt7PdkmTsvEmGuposhwn',
+    'key'             => $_ENV['app']['key'],
 
     'cipher'          => MCRYPT_RIJNDAEL_128,
 
@@ -94,7 +94,6 @@ return [
     */
 
     'providers'       => [
-
         'Illuminate\Foundation\Providers\ArtisanServiceProvider',
         'Illuminate\Auth\AuthServiceProvider',
         'Illuminate\Cache\CacheServiceProvider',
@@ -150,7 +149,6 @@ return [
     */
 
     'aliases'         => [
-
         'App'               => 'Illuminate\Support\Facades\App',
         'Artisan'           => 'Illuminate\Support\Facades\Artisan',
         'Auth'              => 'Illuminate\Support\Facades\Auth',
@@ -189,7 +187,5 @@ return [
         'URL'               => 'Illuminate\Support\Facades\URL',
         'Validator'         => 'Illuminate\Support\Facades\Validator',
         'View'              => 'Illuminate\Support\Facades\View',
-
     ],
-
 ];

@@ -1,20 +1,4 @@
 <?php
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-if (empty($url["path"])) {
-    $credentials = [
-        'host'     => 'localhost',
-        'database' => 'arato',
-        'username' => 'root',
-        'password' => 'root'
-    ];
-} else {
-    $credentials = [
-        'host'     => $url["host"],
-        'database' => substr($url["path"], 1),
-        'username' => $url["user"],
-        'password' => $url["pass"]
-    ];
-}
 return [
 
     /*
@@ -69,10 +53,10 @@ return [
 
         'mysql'  => [
             'driver'    => 'mysql',
-            'host'      => $credentials["host"],
-            'database'  => $credentials["database"],
-            'username'  => $credentials["username"],
-            'password'  => $credentials["password"],
+            'host'      => $_ENV['database']["host"],
+            'database'  => $_ENV['database']["database"],
+            'username'  => $_ENV['database']["username"],
+            'password'  => $_ENV['database']["password"],
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
