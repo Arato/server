@@ -4,28 +4,42 @@ use Arato\Repositories\AlertRepository;
 use controllers\ApiController;
 use Illuminate\Support\Facades\Response;
 use Arato\Transformers\AlertTransformer;
+use Underscore\Types\Arrays;
 
 class AlertsController extends ApiController
 {
     protected $alertTransformer;
     protected $alertRepository;
+    protected $userRepository;
 
-    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository)
+    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository, UserRepository $userRepository)
     {
         $this->beforeFilter('auth.basic', ['except' => ['index', 'show']]);
 
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param null $userId
+     *
      * @return Response
      */
-    public function index()
+    public function index($userId = null)
     {
-        $alerts = $this->alertRepository->filter(Input::all());
+        if (!is_null($userId)) {
+            $user = $this->userRepository->find($userId);
+
+            if (!$user) {
+                return $this->respondNotFound('User does not exist.');
+            }
+        }
+
+        $filters = Arrays::merge(Input::all(), ['userId' => $userId]);
+        $alerts = $this->alertRepository->filter($filters);
 
         return $this->respondWithPagination($alerts, [
             'alerts' => $this->alertTransformer->transformCollection($alerts->all())

@@ -22,4 +22,5 @@ Route::post('/password/reset', ['uses' => 'RemindersController@reset']);
 Route::group(['prefix' => 'api/v1'], function () {
     Route::resource('alerts', 'AlertsController');
     Route::resource('users', 'UsersController');
+    Route::get('users/{id}/alerts', ['uses' => 'AlertsController@index']);
 });
