@@ -1,6 +1,7 @@
 <?php
 
 use Arato\Repositories\AlertRepository;
+use Arato\Repositories\UserRepository;
 use controllers\ApiController;
 use Illuminate\Support\Facades\Response;
 use Arato\Transformers\AlertTransformer;
