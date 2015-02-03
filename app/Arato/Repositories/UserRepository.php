@@ -1,7 +1,6 @@
 <?php
 namespace Arato\Repositories;
 
-use Arato\utils\PostValidator;
 use Underscore\Parse;
 use Underscore\Types\Arrays;
 use User;
