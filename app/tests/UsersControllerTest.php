@@ -33,23 +33,7 @@ class UsersControllerTest extends ApiTester
         $this->assertResponseOk();
         $this->assertObjectHasAttributes($response->users, ['email']);
     }
-
-    /** @test */
-    public function it_fetches_alerts_for_a_single_user()
-    {
-        Alert::create([
-            'title'   => 'my title',
-            'price'   => 10,
-            'content' => "coucou",
-            'user_id' => 1
-        ]);
-
-        $response = $this->get('api/v1/users/1/alerts');
-
-        $this->assertResponseOk();
-        $this->assertEquals(1, count($response->alerts));
-    }
-
+    
     /** @test */
     public function it_404_if_a_user_is_not_found()
     {

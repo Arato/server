@@ -43,6 +43,20 @@ class AlertsControllerTest extends ApiTester
     }
 
     /** @test */
+    public function it_fetches_alerts_for_a_specific_user()
+    {
+        $this->times(1)->make('Alert', ['user_id' => 1]);
+        $this->times(1)->make('Alert', ['user_id' => 2]);
+
+        $this->createUserAndAuthenticate();
+
+        $response = $this->get('api/v1/users/1/alerts');
+
+        $this->assertResponseOk();
+        $this->assertEquals(1, count($response->alerts));
+    }
+
+    /** @test */
     public function it_fetches_a_single_alert()
     {
         $this->make('Alert');
