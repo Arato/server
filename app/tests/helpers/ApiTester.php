@@ -36,6 +36,26 @@ abstract class ApiTester extends \TestCase
         return $user;
     }
 
+    protected function get($url, array $parameters = [])
+    {
+        return $this->getJson($url, 'GET', $parameters);
+    }
+
+    protected function post($url, array $parameters = [])
+    {
+        return $this->getJson($url, 'POST', $parameters);
+    }
+
+    protected function put($url, array $parameters = [])
+    {
+        return $this->getJson($url, 'PUT', $parameters);
+    }
+
+    protected function delete($url, array $parameters = [])
+    {
+        return $this->getJson($url, 'DELETE', $parameters);
+    }
+
     protected function getJson($url, $method = 'GET', array $parameters = [])
     {
         return json_decode($this->call($method, $url, $parameters)->getContent());

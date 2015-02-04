@@ -1,4 +1,5 @@
 <?php
+
 use tests\helpers\Factory;
 
 class AlertsControllerTest extends ApiTester
@@ -15,7 +16,7 @@ class AlertsControllerTest extends ApiTester
     {
         $this->make('Alert');
 
-        $response = $this->getJson('api/v1/alerts');
+        $response = $this->get('api/v1/alerts');
 
         $this->assertResponseOk();
         $this->assertNotNull($response->alerts);
@@ -25,29 +26,38 @@ class AlertsControllerTest extends ApiTester
     /** @test */
     public function it_fetches_alerts_with_filter()
     {
-        $this->make('Alert');
+        $this->times(4)->make('Alert', [
+            'price' => 12
+        ]);
+        $this->times(10)->make('Alert', [
+            'price' => 15
+        ]);
+        $this->times(5)->make('Alert', [
+            'price' => 110
+        ]);
 
-        $this->getJson('api/v1/alerts?limit=10&priceMin=10&priceMax=20');
+        $response = $this->get('api/v1/alerts?limit=10&priceMin=10&priceMax=20');
 
         $this->assertResponseOk();
+        $this->assertEquals(14, $response->paginate->total_count);
     }
 
     /** @test */
     public function it_fetches_a_single_alert()
     {
         $this->make('Alert');
-        $alert = $this->getJson('api/v1/alerts/1')->alerts;
+        $response = $this->get('api/v1/alerts/1');
 
         $this->assertResponseOk();
-        $this->assertObjectHasAttributes($alert, ['title', 'price', 'content']);
+        $this->assertObjectHasAttributes($response->alerts, ['title', 'price', 'content']);
     }
 
     /** @test */
     public function it_404_if_an_alert_is_not_found()
     {
-        $alert = $this->getJson('api/v1/alerts/2');
+        $response = $this->get('api/v1/alerts/2');
         $this->assertResponseStatus(404);
-        $this->assertObjectHasAttributes($alert, ['error']);
+        $this->assertObjectHasAttributes($response, ['error']);
     }
 
     /** @test */
@@ -55,27 +65,28 @@ class AlertsControllerTest extends ApiTester
     {
         $this->createUserAndAuthenticate();
 
-        $this->getJson('api/v1/alerts', 'POST', $this->getStub());
+        $this->post('api/v1/alerts', $this->getStub());
 
         $this->assertResponseStatus(201);
     }
 
-    /** @test */
-    public function it_throws_a_401_error_if_not_authenticated_for_creation()
-    {
-        $this->getJson('api/v1/alerts', 'POST');
-
-        $this->assertResponseStatus(401);
-    }
 
     /** @test */
     public function it_throw_a_bad_request_error_if_a_new_alert_request_fails_validation()
     {
         $this->createUserAndAuthenticate();
 
-        $this->getJson('api/v1/alerts', 'POST');
+        $this->post('api/v1/alerts');
 
         $this->assertResponseStatus(400);
+    }
+
+    /** @test */
+    public function it_throws_a_401_error_if_not_authenticated_for_creation()
+    {
+        $this->post('api/v1/alerts');
+
+        $this->assertResponseStatus(401);
     }
 
     /** @test */
@@ -84,13 +95,13 @@ class AlertsControllerTest extends ApiTester
         $this->createUserAndAuthenticate();
 
         $this->make('Alert');
-        $updatedAlert = $this->getJson('api/v1/alerts/1', 'PUT', [
+        $response = $this->put('api/v1/alerts/1', [
             'title' => "my second title",
             'price' => 10
         ]);
 
         $this->assertResponseStatus(200);
-        $this->assertEquals($updatedAlert->alerts->title, "my second title");
+        $this->assertEquals($response->alerts->title, "my second title");
     }
 
     /** @test */
@@ -99,7 +110,7 @@ class AlertsControllerTest extends ApiTester
         $this->createUserAndAuthenticate();
 
         $this->make('Alert');
-        $this->getJson('api/v1/alerts/1', 'PUT', [
+        $this->put('api/v1/alerts/1', [
             'price' => -3
         ]);
 
@@ -110,7 +121,7 @@ class AlertsControllerTest extends ApiTester
     public function it_throws_a_401_error_if_not_authenticated_for_update()
     {
         $this->make('Alert');
-        $this->getJson('api/v1/alerts/1', 'PUT', [
+        $this->put('api/v1/alerts/1', [
             'title' => "my second title",
             'price' => 10
         ]);
@@ -119,22 +130,11 @@ class AlertsControllerTest extends ApiTester
     }
 
     /** @test */
-    public function it_deletes_an_alert()
-    {
-        $this->createUserAndAuthenticate();
-
-        $this->make('Alert');
-        $this->getJson('api/v1/alerts/1', 'DELETE');
-
-        $this->assertResponseStatus(204);
-    }
-
-    /** @test */
     public function it_throws_a_403_error_if_a_user_is_not_authorized_to_update_alert()
     {
         $this->createUserAndAuthenticate();
         $this->make('Alert', ['user_id' => 2]);
-        $this->getJson('api/v1/alerts/1', 'PUT', [
+        $this->put('api/v1/alerts/1', [
             'title' => "my second title",
         ]);
 
@@ -147,12 +147,23 @@ class AlertsControllerTest extends ApiTester
         $this->createUserAndAuthenticate();
 
         $this->make('Alert');
-        $this->getJson('api/v1/alerts/2', 'PUT', [
+        $this->put('api/v1/alerts/2', [
             'title' => "my second title",
             'price' => 10
         ]);
 
         $this->assertResponseStatus(404);
+    }
+
+    /** @test */
+    public function it_deletes_an_alert()
+    {
+        $this->createUserAndAuthenticate();
+
+        $this->make('Alert');
+        $this->delete('api/v1/alerts/1');
+
+        $this->assertResponseStatus(204);
     }
 
     /**
