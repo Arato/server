@@ -57,6 +57,15 @@ class AlertsControllerTest extends ApiTester
     }
 
     /** @test */
+    public function it_throws_a_404_error_if_a_specific_user_is_not_found()
+    {
+        $response = $this->get('api/v1/users/2/alerts');
+        $this->assertResponseStatus(404);
+        $this->assertObjectHasAttributes($response, ['error']);
+    }
+
+
+    /** @test */
     public function it_fetches_a_single_alert()
     {
         $this->make('Alert');
@@ -67,7 +76,7 @@ class AlertsControllerTest extends ApiTester
     }
 
     /** @test */
-    public function it_404_if_an_alert_is_not_found()
+    public function it_throws_a_404_error_if_an_alert_is_not_found()
     {
         $response = $this->get('api/v1/alerts/2');
         $this->assertResponseStatus(404);
@@ -119,7 +128,7 @@ class AlertsControllerTest extends ApiTester
     }
 
     /** @test */
-    public function it_throw_a_bad_request_error_if_an_updated_alert_request_fails_validation()
+    public function it_throws_a_400_error_if_an_updated_alert_request_fails_validation()
     {
         $this->createUserAndAuthenticate();
 
@@ -178,6 +187,30 @@ class AlertsControllerTest extends ApiTester
         $this->delete('api/v1/alerts/1');
 
         $this->assertResponseStatus(204);
+    }
+
+    /** @test */
+    public function it_throws_a_404_error_if_a_deleted_alert_is_not_found()
+    {
+        $this->createUserAndAuthenticate();
+
+        $this->make('Alert');
+        $response = $this->delete('api/v1/alerts/2');
+
+        $this->assertResponseStatus(404);
+        $this->assertObjectHasAttributes($response, ['error']);
+    }
+
+    /** @test */
+    public function it_throws_a_403_error_if_a_user_is_not_authorized_to_delete_alert()
+    {
+        $this->createUserAndAuthenticate();
+
+        $this->make('Alert', ['user_id' => 2]);
+        $response = $this->delete('api/v1/alerts/1');
+
+        $this->assertResponseStatus(403);
+        $this->assertObjectHasAttributes($response, ['error']);
     }
 
     /**
