@@ -42,6 +42,20 @@ class AuthControllerTest extends ApiTester
     }
 
     /** @test */
+    public function it_should_throws_exception_if_credentials_fails()
+    {
+        User::create([
+            'email'    => 'testing@testingm',
+            'password' => Hash::make('testing')
+        ]);
+        $this->getJson('login', 'POST', [
+            'email'    => 'testing@testing.com',
+            'password' => 'test'
+        ]);
+        $this->assertResponseStatus(401);
+    }
+
+    /** @test */
     public function it_should_log_out_user()
     {
         $user = User::create([

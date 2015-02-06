@@ -54,10 +54,10 @@ class ApiModel extends Eloquent
                 break;
         }
 
-        $v = Validator::make($data, $rules);
+        $validator = Validator::make($data, $rules);
 
-        if ($v->fails()) {
-            $this->errors = $v->messages()->toArray();
+        if ($validator->fails()) {
+            $this->errors = $validator->messages()->toArray();
 
             return false;
         }
