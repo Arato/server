@@ -30,19 +30,19 @@ class AlertRepository extends Repository
         if ($userId) {
             $query = $query->where('user_id', '=', $userId);
         }
-        
-        $userId = Maybe(Arrays::get($filters, 'priceMin'))
+
+        $priceMin = Maybe(Arrays::get($filters, 'priceMin'))
             ->val();
 
-        if ($userId) {
-            $query = $query->where('price', '>=', $userId);
+        if ($priceMin) {
+            $query = $query->where('price', '>=', $priceMin);
         }
 
-        $userId = Maybe(Arrays::get($filters, 'priceMax'))
+        $priceMax = Maybe(Arrays::get($filters, 'priceMax'))
             ->val();
 
-        if ($userId) {
-            $query = $query->where('price', '<=', $userId);
+        if ($priceMax) {
+            $query = $query->where('price', '<=', $priceMax);
         }
 
         $availableSorts = ['id', 'created_at', 'price'];
