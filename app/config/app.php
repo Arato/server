@@ -122,6 +122,7 @@ return [
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Barryvdh\Cors\CorsServiceProvider',
+        'Arato\Validation\ValidationExtensionServiceProvider'
     ],
 
     /*
