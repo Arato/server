@@ -62,7 +62,10 @@ abstract class Repository
         $updated = $this->model->find($id)->update($input);
 
         if ($updated) {
-            return $this->model->find($id);
+            $resource = $this->model->find($id);
+            $resource->touch();
+
+            return $resource;
         }
 
         return null;

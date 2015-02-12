@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'host'       => $_ENV['smtp.host'],
+    'host'       => getenv('SMTP_HOST'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'port'       => $_ENV['smtp.port'],
+    'port'       => getenv('SMTP_PORT'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,8 +55,8 @@ return [
     */
 
     'from'       => [
-        'address' => $_ENV['mail.address'],
-        'name'    => $_ENV['mail.name']
+        'address' => getenv('MAIL_ADDRESS'),
+        'name'    => getenv('MAIL_NAME')
     ],
 
     /*
@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'username'   => $_ENV['smtp.username'],
+    'username'   => getenv('SMTP_USERNAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'password'   => $_ENV['smtp.password'],
+    'password'   => getenv('SMTP_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
