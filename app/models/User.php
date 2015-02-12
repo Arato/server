@@ -34,9 +34,8 @@ class User extends ApiModel implements UserInterface, RemindableInterface
 
 
     protected $commonRules = [
-        'email'        => ['email', 'unique:users'],
-        'password_old' => ['old_password', 'required_with:password'],
-        'password'     => ['confirmed']
+        'email'    => ['email', 'unique:users'],
+        'password' => ['confirmed']
     ];
 
     protected $rulesForCreation = [
@@ -45,5 +44,6 @@ class User extends ApiModel implements UserInterface, RemindableInterface
     ];
 
     protected $rulesForUpdate = [
+        'password_old' => ['old_password', 'required_with:password']
     ];
 }
