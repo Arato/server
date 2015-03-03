@@ -30,8 +30,12 @@ ClassLoader::addDirectories([
 | build a basic log file setup which creates a single file for logs.
 |
 */
-
-Log::useFiles(storage_path() . '/logs/laravel.log');
+if (App::environment('production')) {
+    Log::useFiles('php://stderr');
+}
+else {
+    Log::useFiles(storage_path() . '/logs/laravel.log');
+}
 
 /*
 |--------------------------------------------------------------------------
