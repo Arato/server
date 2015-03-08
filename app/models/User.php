@@ -34,7 +34,7 @@ class User extends ApiModel implements UserInterface, RemindableInterface
 
 
     protected $commonRules = [
-        'email'    => ['email', 'unique:users'],
+        'email'    => ['email', 'unique:users,email,{id}'],
         'password' => ['confirmed']
     ];
 

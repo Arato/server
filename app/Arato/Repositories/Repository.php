@@ -23,20 +23,20 @@ abstract class Repository
 
     public function isValidForCreation($type, Array $data)
     {
-        $user = new $type();
-        $validated = $user->validate($data, Action::CREATION);
+        $instance = new $type();
+        $validated = $instance->validate($data, Action::CREATION);
 
-        $object = new PostValidator($validated, $user->errors());
+        $object = new PostValidator($validated, $instance->errors());
 
         return $object;
     }
 
     public function isValidForUpdate($type, Array $data)
     {
-        $user = new $type();
-        $validated = $user->validate($data, Action::UPDATE);
+        $instance = new $type();
+        $validated = $instance->validate($data, Action::UPDATE);
 
-        $object = new PostValidator($validated, $user->errors());
+        $object = new PostValidator($validated, $instance->errors());
 
         return $object;
     }

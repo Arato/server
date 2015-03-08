@@ -51,6 +51,10 @@ class ApiModel extends Eloquent
                 break;
             case Action::UPDATE :
                 $rules = $this->getRulesForUpdate();
+
+                Arrays::invoke($rules, function ($rule) use ($data) {
+                    return str_replace('{id}', $data['id'], $rule);
+                });
                 break;
         }
 
