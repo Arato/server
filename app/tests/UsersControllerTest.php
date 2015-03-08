@@ -33,7 +33,7 @@ class UsersControllerTest extends ApiTester
         $this->assertResponseOk();
         $this->assertObjectHasAttributes($response->users, ['email']);
     }
-    
+
     /** @test */
     public function it_404_if_a_user_is_not_found()
     {
@@ -75,6 +75,20 @@ class UsersControllerTest extends ApiTester
         $this->assertResponseStatus(200);
         $this->assertEquals($response->users->email, "newemail@email.com");
     }
+
+    public function it_updates_a_user_with_the_same_email_address()
+    {
+        $this->createUserAndAuthenticate();
+
+        $this->make('User');
+        $response = $this->put('api/v1/users/1', [
+            'email' => "testing@testing.com"
+        ]);
+
+        $this->assertResponseStatus(200);
+        $this->assertEquals($response->users->email, "testing@testing.com");
+    }
+
 
     /** @test */
     public function it_throw_a_bad_request_error_if_an_updated_user_request_fails_validation()
