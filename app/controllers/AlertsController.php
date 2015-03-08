@@ -103,6 +103,7 @@ class AlertsController extends ApiController
     {
         $alert = $this->alertRepository->find($id);
         $inputs = Input::all();
+        $inputs['id'] = $id;
 
         if (!$alert) {
             return $this->respondNotFound('Alert does not exist.');
@@ -111,7 +112,6 @@ class AlertsController extends ApiController
         if (!$this->canConnectedUserEditElement($alert['user_id'])) {
             return $this->respondForbidden();
         }
-
         $validation = $this->alertRepository->isValidForUpdate('Alert', $inputs);
 
         if (!$validation->passes) {

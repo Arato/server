@@ -88,7 +88,8 @@ class UsersController extends ApiController
     {
         $user = $this->userRepository->find($id);
         $inputs = Input::all();
- 
+        $inputs['id'] = $id;
+
         if (!$user) {
             return $this->respondNotFound('User does not exist.');
         }
