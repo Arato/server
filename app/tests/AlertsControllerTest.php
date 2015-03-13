@@ -19,7 +19,7 @@ class AlertsControllerTest extends ApiTester
         $response = $this->get('api/v1/alerts');
 
         $this->assertResponseOk();
-        $this->assertNotNull($response->alerts);
+        $this->assertNotNull($response->data);
         $this->assertNotNull($response->paginate);
     }
 
@@ -53,7 +53,7 @@ class AlertsControllerTest extends ApiTester
         $response = $this->get('api/v1/users/1/alerts');
 
         $this->assertResponseOk();
-        $this->assertEquals(1, count($response->alerts));
+        $this->assertEquals(1, count($response->data));
     }
 
     /** @test */
@@ -72,7 +72,7 @@ class AlertsControllerTest extends ApiTester
         $response = $this->get('api/v1/alerts/1');
 
         $this->assertResponseOk();
-        $this->assertObjectHasAttributes($response->alerts, ['title', 'price', 'content']);
+        $this->assertObjectHasAttributes($response->data, ['title', 'price', 'content']);
     }
 
     /** @test */
@@ -124,7 +124,7 @@ class AlertsControllerTest extends ApiTester
         ]);
 
         $this->assertResponseStatus(200);
-        $this->assertEquals($response->alerts->title, "my second title");
+        $this->assertEquals($response->data->title, "my second title");
     }
 
     /** @test */

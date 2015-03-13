@@ -19,7 +19,7 @@ class UsersControllerTest extends ApiTester
         $response = $this->get('api/v1/users');
 
         $this->assertResponseOk();
-        $this->assertNotNull($response->users);
+        $this->assertNotNull($response->data);
         $this->assertNotNull($response->paginate);
     }
 
@@ -31,7 +31,7 @@ class UsersControllerTest extends ApiTester
         $response = $this->get('api/v1/users/1');
 
         $this->assertResponseOk();
-        $this->assertObjectHasAttributes($response->users, ['email']);
+        $this->assertObjectHasAttributes($response->data, ['email']);
     }
 
     /** @test */
@@ -73,7 +73,7 @@ class UsersControllerTest extends ApiTester
         ]);
 
         $this->assertResponseStatus(200);
-        $this->assertEquals($response->users->email, "newemail@email.com");
+        $this->assertEquals($response->data->email, "newemail@email.com");
     }
 
     public function it_updates_a_user_with_the_same_email_address()
@@ -86,7 +86,7 @@ class UsersControllerTest extends ApiTester
         ]);
 
         $this->assertResponseStatus(200);
-        $this->assertEquals($response->users->email, "testing@testing.com");
+        $this->assertEquals($response->data->email, "testing@testing.com");
     }
 
 

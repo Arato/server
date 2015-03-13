@@ -43,7 +43,7 @@ class AlertsController extends ApiController
         $alerts = $this->alertRepository->filter($filters);
 
         return $this->respondWithPagination($alerts, [
-            'alerts' => $this->alertTransformer->transformCollection($alerts->all())
+            'data' => $this->alertTransformer->transformCollection($alerts->all())
         ]);
     }
 
@@ -66,7 +66,7 @@ class AlertsController extends ApiController
         $createdAlert = $this->alertRepository->create($inputs);
 
         return $this->respondCreated([
-            'alerts' => $this->alertTransformer->transform($createdAlert)
+            'data' => $this->alertTransformer->transform($createdAlert)
         ]);
     }
 
@@ -87,7 +87,7 @@ class AlertsController extends ApiController
         }
 
         return $this->respond([
-            'alerts' => $this->alertTransformer->transform($alert)
+            'data' => $this->alertTransformer->transform($alert)
         ]);
     }
 
@@ -122,7 +122,7 @@ class AlertsController extends ApiController
         $updatedAlert = $this->alertRepository->update($id, $inputs);
 
         return $this->respond([
-            'alerts' => $this->alertTransformer->transform($updatedAlert)
+            'data' => $this->alertTransformer->transform($updatedAlert)
         ]);
     }
 
