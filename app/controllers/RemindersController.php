@@ -56,7 +56,9 @@ class RemindersController extends ApiController
             case Password::INVALID_USER:
                 return $this->respondNotFound('User does not exist.');
             case Password::INVALID_PASSWORD:
+                return $this->setStatusCode(400)->respondWithError("Invalid password");
             case Password::INVALID_TOKEN:
+                return $this->setStatusCode(400)->respondWithError("Invalid token");
             default:
                 return $this->setStatusCode(400)->respondWithError(Lang::get($response));
         }
