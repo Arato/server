@@ -12,13 +12,20 @@ class PushService
 
     function __construct()
     {
-        $this->client = new Client(new Version1X(getenv("NODE_PUSH")));
+        try {
+            $this->client = new Client(new Version1X(getenv("NODE_PUSH")));
+        }
+        catch (Exception $e) {
+
+        }
     }
 
     function emit($channel, Array $data)
     {
-        $this->client->initialize();
-        $this->client->emit($channel, $data);
-        $this->client->close();
+        if ($this->client != null) {
+            $this->client->initialize();
+            $this->client->emit($channel, $data);
+            $this->client->close();
+        }
     }
 }
