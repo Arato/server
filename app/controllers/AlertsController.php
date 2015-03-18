@@ -1,5 +1,6 @@
 <?php
 
+use Arato\Push\PushService;
 use Arato\Repositories\AlertRepository;
 use Arato\Repositories\UserRepository;
 use controllers\ApiController;
@@ -13,13 +14,16 @@ class AlertsController extends ApiController
     protected $alertRepository;
     protected $userRepository;
 
-    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository, UserRepository $userRepository)
+    protected $pushService;
+
+    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository, UserRepository $userRepository, PushService $pushService)
     {
         $this->beforeFilter('auth.basic', ['except' => ['index', 'show']]);
 
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
         $this->userRepository = $userRepository;
+        $this->pushService = $pushService;
     }
 
     /**
@@ -65,9 +69,13 @@ class AlertsController extends ApiController
         $inputs['user_id'] = Auth::user()->id;
         $createdAlert = $this->alertRepository->create($inputs);
 
-        return $this->respondCreated([
+        $response = [
             'data' => $this->alertTransformer->transform($createdAlert)
-        ]);
+        ];
+
+        $this->pushService->emit('php.alert.created', $response);
+
+        return $this->respondCreated($response);
     }
 
 
@@ -121,9 +129,13 @@ class AlertsController extends ApiController
         $inputs['user_id'] = Auth::user()->id;
         $updatedAlert = $this->alertRepository->update($id, $inputs);
 
-        return $this->respond([
+        $response = [
             'data' => $this->alertTransformer->transform($updatedAlert)
-        ]);
+        ];
+
+        $this->pushService->emit('php.alert.updated', $response);
+
+        return $this->respond($response);
     }
 
 
@@ -147,6 +159,12 @@ class AlertsController extends ApiController
         }
 
         $this->alertRepository->delete($id);
+
+        $response = [
+            "data" => $this->alertTransformer->transform($alert)
+        ];
+
+        $this->pushService->emit('php.alert.deleted', $response);
 
         return $this->respondNoContent();
     }
