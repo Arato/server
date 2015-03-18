@@ -26,7 +26,10 @@
       "app/tests/helpers",
       "app/Arato"
     ],
-    "files": ["vendor/pirminis/maybe-monad/lib/global.php"]
+    "files": ["vendor/pirminis/maybe-monad/lib/global.php"],
+    "psr-0": {
+      "Arato": "app/"
+    }
   },
   "scripts": {
     "post-install-cmd": [
