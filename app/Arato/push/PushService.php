@@ -16,6 +16,10 @@ class PushService
         $this->client = new Client(new Version1X(getenv("NODE_PUSH")));
     }
 
+    /**
+     * @param       $channel
+     * @param array $data
+     */
     function emit($channel, Array $data)
     {
         try {
@@ -23,7 +27,8 @@ class PushService
             $this->client->emit($channel, $data);
             $this->client->close();
         }
-        catch (Exception $e) {
+        catch (\RuntimeException $e) {
+            Log::info("catch", [$e]);
         }
     }
 }
