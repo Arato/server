@@ -5,6 +5,7 @@ namespace Arato\Push;
 
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version1X;
+use Log;
 
 class PushService
 {
@@ -12,20 +13,17 @@ class PushService
 
     function __construct()
     {
-        try {
-            $this->client = new Client(new Version1X(getenv("NODE_PUSH")));
-        }
-        catch (Exception $e) {
-
-        }
+        $this->client = new Client(new Version1X(getenv("NODE_PUSH")));
     }
 
     function emit($channel, Array $data)
     {
-        if ($this->client != null) {
+        try {
             $this->client->initialize();
             $this->client->emit($channel, $data);
             $this->client->close();
+        }
+        catch (Exception $e) {
         }
     }
 }
