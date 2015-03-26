@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAlertsTable extends Migration
+class CreateNotificationsTable extends Migration
 {
 
     /**
@@ -13,16 +13,12 @@ class CreateAlertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('alerts', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-
-            $table->string('title', 255);
-            $table->string('content', 255);
-            $table->integer('price');
-            $table->integer('user_id');
+            $table->integer('notifiable_id');
+            $table->string('notifiable_type');
+            $table->string('type', 10);
             $table->timestamps();
-
-            $table->softDeletes();
         });
     }
 
@@ -33,8 +29,8 @@ class CreateAlertsTable extends Migration
      */
     public function down()
     {
-        Schema::table('alerts', function (Blueprint $table) {
-            Schema::drop('alerts');
+        Schema::table('notifications', function (Blueprint $table) {
+            Schema::drop('notifications');
         });
     }
 

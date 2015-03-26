@@ -14,16 +14,13 @@ class AlertsController extends ApiController
     protected $alertRepository;
     protected $userRepository;
 
-    protected $pushService;
-
-    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository, UserRepository $userRepository, PushService $pushService)
+    function __construct(AlertTransformer $alertTransformer, AlertRepository $alertRepository, UserRepository $userRepository)
     {
         $this->beforeFilter('auth.basic', ['except' => ['index', 'show']]);
 
         $this->alertTransformer = $alertTransformer;
         $this->alertRepository = $alertRepository;
         $this->userRepository = $userRepository;
-        $this->pushService = $pushService;
     }
 
     /**
@@ -70,10 +67,8 @@ class AlertsController extends ApiController
         $createdAlert = $this->alertRepository->create($inputs);
 
         $response = [
-            'data' => $this->alertTransformer->transform($createdAlert)
+            'data' => $this->alertTransformer->fullTransform($createdAlert)
         ];
-
-        $this->pushService->emit('php.alert.created', $response);
 
         return $this->respondCreated($response);
     }
@@ -95,7 +90,7 @@ class AlertsController extends ApiController
         }
 
         return $this->respond([
-            'data' => $this->alertTransformer->transform($alert)
+            'data' => $this->alertTransformer->fullTransform($alert)
         ]);
     }
 
@@ -130,10 +125,8 @@ class AlertsController extends ApiController
         $updatedAlert = $this->alertRepository->update($id, $inputs);
 
         $response = [
-            'data' => $this->alertTransformer->transform($updatedAlert)
+            'data' => $this->alertTransformer->fullTransform($updatedAlert)
         ];
-
-        $this->pushService->emit('php.alert.updated', $response);
 
         return $this->respond($response);
     }
@@ -159,12 +152,6 @@ class AlertsController extends ApiController
         }
 
         $this->alertRepository->delete($id);
-
-        $response = [
-            "data" => $this->alertTransformer->transform($alert)
-        ];
-
-        $this->pushService->emit('php.alert.deleted', $response);
 
         return $this->respondNoContent();
     }

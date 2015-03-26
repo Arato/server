@@ -32,7 +32,7 @@ class AuthController extends ApiController
 
         if (Auth::attempt($userData)) {
             return $this->respond([
-                'data' => $this->userTransformer->transform(Auth::user())
+                'data' => $this->userTransformer->fullTransform(Auth::user())
             ]);
         } else {
             return $this->respondUnauthorized();

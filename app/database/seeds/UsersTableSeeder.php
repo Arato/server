@@ -9,10 +9,8 @@ class UsersTableSeeder extends Seeder
     {
 
         $emails = [
-            'pierre.baron@alyacom.fr',
-            'emmanuel.gendron@alyacom.fr',
-            'thibaut.brier@alyacom.fr',
-            'yoann.hamon@alyacom.fr'
+            'user1@email.com',
+            'user2@email.com'
         ];
 
         Arrays::each($emails, function ($email) {

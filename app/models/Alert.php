@@ -1,10 +1,12 @@
 <?php
 
 
-use models\ApiModel;
+use models\ApiModelNotifiable;
 
-class Alert extends ApiModel
+class Alert extends ApiModelNotifiable
 {
+    use SoftDeletingTrait;
+    protected $dates = ['deleted_at'];
     /**
      * The database table used by the model.
      *
@@ -13,6 +15,8 @@ class Alert extends ApiModel
     protected $table = 'alerts';
 
     protected $fillable = ['title', 'price', 'content', 'user_id'];
+
+    protected $notifiable = ['title', 'price', 'content'];
 
     protected $commonRules = [
         'title' => 'required',

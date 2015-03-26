@@ -51,7 +51,7 @@ class UsersController extends ApiController
         $createdUser = $this->userRepository->create($inputs);
 
         return $this->respondCreated([
-            'data' => $this->userTransformer->transform($createdUser)
+            'data' => $this->userTransformer->fullTransform($createdUser)
         ]);
     }
 
@@ -72,7 +72,7 @@ class UsersController extends ApiController
         }
 
         return $this->respond([
-            'data' => $this->userTransformer->transform($user)
+            'data' => $this->userTransformer->fullTransform($user)
         ]);
     }
 
@@ -110,7 +110,7 @@ class UsersController extends ApiController
         $updatedUser = $this->userRepository->update($id, $inputs);
 
         return $this->respond([
-            'data' => $this->userTransformer->transform($updatedUser)
+            'data' => $this->userTransformer->fullTransform($updatedUser)
         ]);
     }
 

@@ -4,7 +4,7 @@ class DatabaseSeeder extends Seeder
 {
 
     private $tables = [
-        'alerts', 'users'
+        'users', 'alerts'
     ];
 
     /**
@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
 
         Eloquent::unguard();
 
-        $this->call('AlertsTableSeeder');
         $this->call('UsersTableSeeder');
+        $this->call('AlertsTableSeeder');
     }
 
     private function cleanDatabase()

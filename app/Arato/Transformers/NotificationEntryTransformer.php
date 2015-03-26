@@ -4,13 +4,16 @@
 namespace Arato\Transformers;
 
 
-class UserTransformer extends Transformer
+class NotificationEntryTransformer extends Transformer
 {
+
     public function basicTransform($item)
     {
         return [
-            'id'    => $item['id'],
-            'email' => $item['email']
+            'id'            => $item['id'],
+            'field'         => $item['field'],
+            'previousValue' => $item['previousValue'],
+            'newValue'      => $item['newValue']
         ];
     }
 

@@ -9,8 +9,12 @@ abstract class Transformer
 {
     public function transformCollection(array $items)
     {
-        return Arrays::invoke($items, [$this, 'transform']);
+        return Arrays::invoke($items, [$this, 'extendedTransform']);
     }
 
-    public abstract function transform($item);
+    public abstract function basicTransform($item);
+
+    public abstract function extendedTransform($item);
+
+    public abstract function fullTransform($item);
 }
