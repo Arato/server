@@ -42,9 +42,7 @@ class AlertTransformer extends Transformer
         return Arrays::merge(
             $this->extendedTransform($item),
             [
-                'notifications' => Arrays::invoke($item->notifications, function ($notification) {
-                    return $this->notificationTransformer->extendedTransform($notification);
-                })
+                'notifications' => $this->notificationTransformer->transformCollection($item->notifications->all())
             ]);
     }
 }
