@@ -1,10 +1,10 @@
 <?php
 
 use Arato\Push\PushService;
-use models\enum\NotificationType;
-use Underscore\Types\Arrays;
 use Arato\Transformers\NotificationEntryTransformer;
 use Arato\Transformers\NotificationTransformer;
+use models\enum\NotificationType;
+use Underscore\Types\Arrays;
 
 Alert::created(function ($alert) {
     $entries = Arrays::invoke($alert->getNotifiableProperties(), function ($key) use ($alert) {
