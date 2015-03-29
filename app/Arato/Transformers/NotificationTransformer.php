@@ -4,6 +4,8 @@
 namespace Arato\Transformers;
 
 
+use Underscore\Types\Arrays;
+
 class NotificationTransformer extends Transformer
 {
     public $notificationEntryTransformer;
@@ -16,8 +18,10 @@ class NotificationTransformer extends Transformer
     public function basicTransform($item)
     {
         return [
-            'id'   => $item['id'],
-            'type' => $item['type']
+            'id'              => $item['id'],
+            'type'            => $item['type'],
+            'notifiable_id'   => $item['notifiable_id'],
+            'notifiable_type' => $item['notifiable_type']
         ];
     }
 
@@ -26,9 +30,7 @@ class NotificationTransformer extends Transformer
         return Arrays::merge(
             $this->basicTransform($item),
             [
-                'entries'    => Arrays::invoke($item->entries, function ($entry) {
-                    return $this->notificationEntryTransformer->extendedTransfrom($entry);
-                }),
+                'entries'    => $this->notificationEntryTransformer->transformCollection($item->entries->all()),
                 'created_at' => $item['created_at']->toIso8601String(),
                 'updated_at' => $item['updated_at']->toIso8601String()
             ]);

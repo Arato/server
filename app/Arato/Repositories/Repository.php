@@ -71,9 +71,16 @@ abstract class Repository
         return null;
     }
 
-    public function find($id)
+    public function find($id, $searchInDeleted = false)
     {
-        $model = $this->model->find($id);
+        $model = $this->model;
+
+        if ($searchInDeleted) {
+            $model = $model->withTrashed();
+        }
+
+        $model = $model->find($id);
+
         if ($model) {
             return $model;
         }
