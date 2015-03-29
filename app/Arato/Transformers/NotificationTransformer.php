@@ -18,8 +18,10 @@ class NotificationTransformer extends Transformer
     public function basicTransform($item)
     {
         return [
-            'id'   => $item['id'],
-            'type' => $item['type']
+            'id'              => $item['id'],
+            'type'            => $item['type'],
+            'notifiable_id'   => $item['notifiable_id'],
+            'notifiable_type' => $item['notifiable_type']
         ];
     }
 
